@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autos de Sueños — Dashboard Multi-Taller</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --gold:#F5C400;--gold2:#FFD740;--gold-dim:rgba(245,196,0,0.12);--gold-border:rgba(245,196,0,0.28);
+  --bg:#0D0D0D;--surface:#141414;--surface2:#1C1C1C;--surface3:#242424;
+  --text:#F0EDE4;--muted:#606060;--muted2:#9A9580;
+  --green:#4ADE80;--red:#F87171;--blue:#60A5FA;--purple:#C084FC;--orange:#FB923C;
+  --alicia:#F5C400;--funes:#4ADE80;--mandela:#60A5FA;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.5;min-height:100vh}
+
+/* HEADER */
+.header{background:var(--surface);border-bottom:1px solid var(--gold-border);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.header-left{display:flex;align-items:center;gap:14px}
+.logo-circle{width:40px;height:40px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.brand-name{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:.06em;color:var(--gold);line-height:1}
+.brand-sub{font-size:10px;color:var(--muted2);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.header-right{display:flex;align-items:center;gap:10px}
+.header-badge{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);font-size:10px;font-weight:500;padding:4px 11px;border-radius:20px;letter-spacing:.04em}
+
+/* TALLER TABS */
+.taller-tabs{background:var(--surface);border-bottom:1px solid var(--gold-border);padding:0 32px;display:flex;gap:0}
+.ttab{padding:14px 24px;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.12em;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;user-select:none;position:relative}
+.ttab:hover{color:var(--text)}
+.ttab.active[data-tab="Todos"]{color:var(--gold);border-bottom-color:var(--gold)}
+.ttab.active[data-tab="Alicia"]{color:var(--alicia);border-bottom-color:var(--alicia)}
+.ttab.active[data-tab="Funes"]{color:var(--funes);border-bottom-color:var(--funes)}
+.ttab.active[data-tab="Mandela"]{color:var(--mandela);border-bottom-color:var(--mandela)}
+.ttab .tab-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:middle}
+
+/* MAIN */
+.main{padding:24px 32px;max-width:1440px;margin:0 auto}
+
+/* SECTION TITLE */
+.st{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.st::after{content:'';flex:1;height:1px;background:var(--gold-border)}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:24px}
+.kpi-card{background:var(--surface);border:1px solid var(--gold-border);border-radius:10px;padding:14px 16px;transition:transform .15s,border-color .2s;cursor:default;position:relative;overflow:hidden}
+.kpi-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.kpi-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.kpi-card:hover::after{transform:scaleX(1)}
+.kpi-label{font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.kpi-value{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--gold);letter-spacing:.02em;line-height:1}
+.kpi-delta{font-size:11px;margin-top:5px;color:var(--muted2)}
+.kpi-delta.up{color:var(--green)}.kpi-delta.down{color:var(--red)}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--gold-border);border-radius:12px;padding:18px 20px}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.1em;color:var(--text);margin-bottom:3px}
+.card-sub{font-size:11px;color:var(--muted);margin-bottom:14px}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.chip{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--surface3);background:var(--surface);color:var(--muted2);transition:all .18s;user-select:none}
+.chip:hover{border-color:var(--gold);color:var(--text)}
+.chip.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:600}
+.chip.all-chip.active{background:var(--surface3);color:var(--gold);border-color:var(--gold)}
+
+/* TIME CONFIG */
+.time-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+.tinput-card{background:var(--surface2);border:1px solid var(--gold-border);border-radius:9px;padding:12px 13px;transition:border-color .2s}
+.tinput-card:hover{border-color:var(--gold)}
+.tsvc-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.tdot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.trow{display:flex;align-items:center;gap:5px}
+.trow input[type=number]{width:60px;padding:5px 7px;background:var(--surface3);border:1px solid rgba(245,196,0,.2);color:var(--text);border-radius:6px;font-family:'DM Mono',monospace;font-size:12px;outline:none;text-align:center;transition:border-color .15s}
+.trow input[type=number]:focus{border-color:var(--gold)}
+.tunit{font-size:10px;color:var(--muted)}
+.tbadge{display:inline-block;background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);font-size:9px;font-family:'DM Mono',monospace;padding:2px 6px;border-radius:9px;margin-top:5px;font-weight:500}
+
+/* TIME KPIS */
+.tkpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.tkpi{background:var(--surface);border:1px solid rgba(96,165,250,.22);border-radius:10px;padding:13px 15px}
+.tkpi .label{font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.tkpi .value{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#60A5FA;line-height:1}
+.tkpi .sub{font-size:11px;color:var(--muted2);margin-top:3px}
+
+/* TOGGLE */
+.vtoggle-wrap{display:flex;gap:5px;margin-bottom:14px}
+.vt{padding:4px 12px;border-radius:14px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--surface3);background:var(--surface);color:var(--muted2);transition:all .15s;user-select:none}
+.vt.active{background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.4);color:#60A5FA}
+
+/* DATA TABLE */
+.table-wrap{overflow-x:auto}
+.dtable{width:100%;border-collapse:collapse;font-family:'DM Mono',monospace;font-size:11px}
+.dtable th{padding:8px 10px;text-align:left;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--gold-border);white-space:nowrap}
+.dtable th.num{text-align:right}
+.dtable td{padding:7px 10px;border-bottom:1px solid rgba(245,196,0,.06);color:var(--text);white-space:nowrap}
+.dtable td.num{text-align:right;color:var(--muted2)}
+.dtable td.tc{color:var(--gold);font-weight:600}
+.dtable tr:hover td{background:rgba(245,196,0,.04)}
+.dtable .tr-tot td{border-top:1px solid var(--gold-border);color:var(--gold);font-weight:600;background:rgba(245,196,0,.05)}
+.dtable .svc-name{font-family:'DM Sans',sans-serif;font-size:12px}
+.ibar{display:inline-block;height:4px;border-radius:2px;vertical-align:middle;margin-right:4px}
+
+/* RANK */
+.rank-row{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid rgba(245,196,0,.07)}
+.rank-row:last-child{border-bottom:none}
+.rnum{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--muted);width:22px;flex-shrink:0}
+.rname{flex:1;font-size:11px;color:var(--text)}
+.rbar-wrap{flex:2}
+.rbar-bg{background:var(--surface3);border-radius:3px;height:5px;overflow:hidden}
+.rbar-fill{height:100%;border-radius:3px;background:var(--gold);transition:width .5s}
+.rval{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);font-weight:500;min-width:32px;text-align:right}
+.rpct{font-size:10px;color:var(--muted);min-width:34px;text-align:right}
+
+/* HEATMAP */
+.hmap-wrap{overflow-x:auto}
+.hmap{border-collapse:collapse;width:100%}
+.hmap th{font-size:10px;color:var(--muted);padding:5px 6px;text-align:center;font-weight:500}
+.hmap td{min-width:46px;height:36px;text-align:center;font-family:'DM Mono',monospace;font-size:10px;border-radius:3px;cursor:pointer;transition:transform .15s}
+.hmap td:hover{transform:scale(1.18);z-index:10;box-shadow:0 0 0 2px var(--gold);position:relative}
+.hmap .rlabel{font-size:10px;color:var(--muted2);text-align:left;padding-right:8px;white-space:nowrap;font-family:'DM Sans',sans-serif}
+
+/* TOOLTIP */
+#tooltip{position:fixed;background:var(--surface2);border:1px solid var(--gold-border);border-radius:8px;padding:9px 13px;font-size:11px;color:var(--text);pointer-events:none;opacity:0;transition:opacity .15s;z-index:9999;white-space:nowrap}
+#tooltip.show{opacity:1}
+#tooltip .tt{font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--gold);letter-spacing:.07em;margin-bottom:3px}
+
+/* MES INDICATOR */
+.mes-badge{display:inline-flex;align-items:center;gap:5px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:18px;padding:3px 11px;font-size:11px;color:var(--gold);margin-bottom:13px;font-weight:500}
+
+/* COMPARE SECTION */
+.compare-banner{background:var(--surface2);border:1px solid var(--gold-border);border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.compare-banner .label{font-size:11px;color:var(--muted);white-space:nowrap}
+.compare-banner .val{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold)}
+.compare-banner .sep{width:1px;height:32px;background:var(--gold-border)}
+
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--surface)}
+::-webkit-scrollbar-thumb{background:var(--gold-border);border-radius:3px}
+
+select{background:var(--surface3);border:1px solid var(--gold-border);color:var(--text);padding:7px 10px;border-radius:8px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none}
+button{font-family:'DM Sans',sans-serif;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div id="tooltip"><div class="tt" id="tt-title"></div><div id="tt-body"></div></div>
+
+<header class="header">
+  <div class="header-left">
+    <div class="logo-circle">🔧</div>
+    <div>
+      <div class="brand-name">Autos de Sueños</div>
+      <div class="brand-sub" id="header-sub">Análisis multi-taller</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <button id="btn-update" onclick="actualizarDesdeSheet()" style="background:rgba(245,196,0,0.1);border:1px solid rgba(245,196,0,0.3);color:#F5C400;padding:5px 13px;border-radius:20px;font-size:10px;font-weight:500;cursor:pointer;letter-spacing:.04em;transition:all .2s" onmouseover="this.style.background='rgba(245,196,0,0.2)'" onmouseout="this.style.background='rgba(245,196,0,0.1)'">↻ Actualizar Sheet</button>
+    <div class="header-badge" id="header-badge">📅 Mayo 2024 — Mayo 2025</div>
+  </div>
+</header>
+
+<nav class="taller-tabs">
+  <div class="ttab active" data-tab="Todos"><span class="tab-dot" style="background:var(--gold)"></span>TODOS LOS TALLERES</div>
+  <div class="ttab" data-tab="Alicia"><span class="tab-dot" style="background:var(--alicia)"></span>ALICIA</div>
+  <div class="ttab" data-tab="Funes"><span class="tab-dot" style="background:var(--funes)"></span>FUNES</div>
+  <div class="ttab" data-tab="Mandela"><span class="tab-dot" style="background:var(--mandela)"></span>MANDELA</div>
+</nav>
+
+<div class="main">
+
+  <!-- COMPARE PANEL (solo en modo Todos) -->
+  <div id="compare-panel" style="margin-bottom:22px;">
+    <div class="st">Comparativa entre talleres</div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:22px;">
+      <div class="card">
+        <div class="card-title">Servicios por mes — los 3 talleres</div>
+        <div class="card-sub">Barras agrupadas · click en mes para ver desglose</div>
+        <div style="position:relative;height:260px"><canvas id="chartCompare3" aria-label="Comparativa 3 talleres por mes"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Distribución total por taller</div>
+        <div class="card-sub">Participación en el período</div>
+        <div style="position:relative;height:220px"><canvas id="chartTallerDonut" aria-label="Donut por taller"></canvas></div>
+        <div id="taller-donut-leg" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;font-size:11px;"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:22px;">
+      <div class="card-title">Totales por taller — últimos 12 meses</div>
+      <div class="card-sub">Ranking de servicios consolidado entre Alicia, Funes y Mandela</div>
+      <div class="table-wrap" style="margin-top:12px;"><table class="dtable" id="table-compare3"></table></div>
+    </div>
+  </div>
+
+
+  <!-- RESUMEN ÚLTIMO MES -->
+  <div id="ultimo-mes-panel" style="margin-bottom:24px">
+    <div class="st" id="ultimo-mes-st">Resumen último mes</div>
+    <div id="ultimo-mes-content"></div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="st">Resumen ejecutivo</div>
+  <div class="kpi-grid" id="kpi-grid"></div>
+
+  <!-- TIME CONFIG -->
+  <div class="st">⏱ Carga operativa por tiempo</div>
+  <div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;">
+      <div><div class="card-title">Tiempo promedio por servicio</div><div class="card-sub">Editá los minutos · todo se recalcula en tiempo real</div></div>
+      <button onclick="resetTimes()" style="background:transparent;border:1px solid var(--gold-border);color:var(--muted2);padding:5px 13px;border-radius:7px;font-size:11px;">↺ Defaults</button>
+    </div>
+    <div class="time-grid" id="time-config-grid"></div>
+  </div>
+  <div class="tkpi-grid" id="tkpi-grid"></div>
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:22px;">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
+        <div class="card-title">Horas operativas por mes</div>
+        <div class="vtoggle-wrap">
+          <div class="vt active" id="vt-horas" onclick="setTimeView('horas')">Horas totales</div>
+          <div class="vt" id="vt-prom" onclick="setTimeView('prom')">Por día hábil</div>
+        </div>
+      </div>
+      <div class="card-sub">Barras azules = horas · línea dorada = cantidad servicios</div>
+      <div style="position:relative;height:240px"><canvas id="chartTimeBar" aria-label="Horas por mes"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Mix real por tiempo</div>
+      <div class="card-sub">Participación ponderada por duración</div>
+      <div style="position:relative;height:200px"><canvas id="chartTimeDonut" aria-label="Donut tiempo"></canvas></div>
+      <div id="time-donut-leg" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:7px;font-size:10px;"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:24px;">
+    <div class="card-title">Cantidad de servicios vs peso real en tiempo</div>
+    <div class="card-sub">La columna Δ muestra cuánto sube o baja la participación cuando se pondera por tiempo en lugar de cantidad</div>
+    <div class="table-wrap" style="margin-top:12px;"><table class="dtable" id="table-time"></table></div>
+  </div>
+
+  <!-- SERVICE CHIPS -->
+  <div class="st">Filtrar por servicio</div>
+  <div class="chips" id="chips"></div>
+
+  <!-- MAIN CHARTS -->
+  <div class="st">Evolución mensual</div>
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:24px;">
+    <div class="card">
+      <div class="card-title" id="main-chart-title">Servicios por mes</div>
+      <div class="card-sub">Click en una barra para ver el desglose del mes</div>
+      <div style="position:relative;height:250px"><canvas id="chartMain" aria-label="Servicios por mes"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Mix de servicios</div>
+      <div class="card-sub">Participación en el período seleccionado</div>
+      <div style="position:relative;height:210px"><canvas id="chartDonut" aria-label="Mix servicios"></canvas></div>
+      <div id="donut-leg" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:7px;font-size:10px;"></div>
+    </div>
+  </div>
+
+  <!-- HEATMAP -->
+  <div class="st">Mapa de calor</div>
+  <div class="card" style="margin-bottom:24px;">
+    <div class="card-title">Intensidad por servicio y mes</div>
+    <div class="card-sub">Hover → tooltip · Click → desglose del mes</div>
+    <div class="hmap-wrap"><table class="hmap" id="hmap"></table></div>
+  </div>
+
+  <!-- RANKING + ANUAL -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;">
+    <div class="card">
+      <div class="card-title">Ranking de servicios</div>
+      <div class="card-sub" id="rank-sub">Período completo</div>
+      <div id="rank-list"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Evolución anual</div>
+      <div class="card-sub" id="anual-sub">Histórico disponible</div>
+      <div style="position:relative;height:260px"><canvas id="chartAnual" aria-label="Evolución anual"></canvas></div>
+    </div>
+  </div>
+
+  <!-- MES DETAIL + COMPARE -->
+  <div class="st">Detalle y comparación de meses</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+        <div class="card-title">Desglose del mes seleccionado</div>
+        <select id="sel-mes-detail" onchange="buildMesDetail(parseInt(this.value))" style="background:var(--surface2);border:1px solid var(--gold-border);color:var(--gold);padding:5px 12px;border-radius:8px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;min-width:120px"></select>
+      </div>
+      <div id="mes-detail"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Comparar dos meses</div>
+      <div class="card-sub">Seleccioná mes A y mes B</div>
+      <div style="display:flex;gap:8px;margin-bottom:14px;">
+        <select id="selA" style="flex:1"></select>
+        <select id="selB" style="flex:1"></select>
+      </div>
+      <div style="position:relative;height:210px"><canvas id="chartMesCompare" aria-label="Comparación meses"></canvas></div>
+    </div>
+  </div>
+
+  <!-- FULL TABLE -->
+  <div class="st">Tabla detallada completa</div>
+  <div class="card" style="margin-bottom:24px;">
+    <div class="card-title">Todos los servicios × mes</div>
+    <div class="table-wrap" style="margin-top:12px;"><table class="dtable" id="table-main"></table></div>
+  </div>
+
+  <!-- ANUAL TABLE -->
+  <div class="st">Histórico anual</div>
+  <div class="card" style="margin-bottom:24px;">
+    <div class="card-title" id="anual-table-title">Evolución por año</div>
+    <div class="table-wrap" style="margin-top:12px;"><table class="dtable" id="table-anual"></table></div>
+  </div>
+
+</div><!-- /main -->
+
+<footer style="border-top:1px solid var(--gold-border);padding:16px 32px;text-align:center;color:var(--muted);font-size:10px;letter-spacing:.05em;">
+  AUTOS DE SUEÑOS · DASHBOARD DE ANÁLISIS · MAYO 2024 — ABRIL 2025
+</footer>
+
+<script>
+// =====================================================
+// DATA
+// =====================================================
+// ── DATOS DESDE GOOGLE SHEET "Cuentas Lubris" ──────────────────────────────
+// Sheet ID: 15pm8XfSla5MUajrHhTXEg4XiejaRsn45RxC6RqSJP6k
+// Para refrescar: botón "↻ Actualizar Sheet" en el header
+// ─────────────────────────────────────────────────────────────────────────────
+const serviceColors = {
+  'Lavados':'#F5C400','C. Aceite':'#E0E0E0','Tren':'#4ADE80','Otros':'#FB923C',
+  'Distribución':'#60A5FA','Ref. Agua':'#C084FC','Bujías':'#F87171',
+  'Tapas':'#34D399','Tapizados':'#FBBF24','Escape':'#A78BFA','Pulido':'#F97316'
+};
+const tallerColors = { 'Alicia':'#F5C400','Funes':'#4ADE80','Mandela':'#60A5FA' };
+const NAME_MAP = {'lavados':'Lavados','lavado':'Lavados','c. aceite':'C. Aceite','aceite':'C. Aceite','cambios de aceite':'C. Aceite','tren':'Tren','tren delantero':'Tren','tren ':'Tren','distribucion':'Distribución','distribución':'Distribución','ref agua':'Ref. Agua','ref. agua':'Ref. Agua','bujias':'Bujías','bujías':'Bujías','otros':'Otros','tapas':'Tapas','tapizados':'Tapizados','escape':'Escape','escapes':'Escape','pulido':'Pulido'};
+function normName(s){ return NAME_MAP[(s||'').trim().toLowerCase().replace(/\s+$/,'')] || null; }
+
+let SHEET_DATA = {"Alicia":{"meses":["Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre","Enero","Febrero","Marzo","Abril","Mayo"],"data":{"Lavados":[55,63,27,55,56,59,33,33,32,35,30,15,12],"C. Aceite":[45,23,27,36,26,20,29,26,40,23,37,26,22],"Tapizados":[0,0,0,0,0,0,0,0,0,1,0,1,0],"Pulido":[0,0,0,0,0,0,0,0,0,0,0,0,0],"Escape":[0,1,0,0,0,1,0,0,0,1,0,0,0],"Tren":[17,12,8,11,10,11,3,7,8,13,3,7,12],"Distribución":[5,2,3,4,4,2,4,5,4,1,12,5,5],"Ref. Agua":[2,7,10,1,4,7,7,3,4,2,3,4,7],"Bujías":[1,4,3,6,2,1,2,3,4,0,5,2,4],"Otros":[14,10,12,9,17,17,7,14,13,12,9,13,15],"Tapas":[2,0,1,5,1,2,0,0,0,0,0,0,0]},"anual":{"years":[2021,2022,2023,2024,2025,2026],"Lavados":[1439,1543,695,743,583,124],"C. Aceite":[324,433,482,439,394,148],"Tren":[78,117,111,197,128,35],"Distribución":[0,39,62,76,58,23],"Otros":[0,67,131,151,173,62]}},"Funes":{"meses":["Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre","Enero","Febrero","Marzo","Abril","Mayo"],"data":{"Lavados":[306,370,333,277,264,337,217,294,277,118,209,221,239],"C. Aceite":[20,10,25,22,22,17,15,28,22,15,13,15,18],"Tapizados":[2,0,2,3,0,0,2,2,0,0,1,3,4],"Pulido":[0,0,1,0,0,0,0,0,0,0,0,0,1],"Escape":[11,5,10,8,10,10,8,9,10,2,7,5,4],"Tren":[0,1,0,1,0,1,0,0,2,1,4,0,0],"Distribución":[0,1,0,0,0,0,1,0,1,0,1,0,0],"Ref. Agua":[1,0,1,1,0,0,0,0,1,0,0,2,0],"Bujías":[1,0,0,0,0,0,1,3,0,0,0,0,0],"Otros":[1,0,0,1,3,4,2,0,1,0,1,4,0],"Tapas":[0,0,0,0,0,0,0,0,0,0,0,0,0]},"anual":{"years":[2022,2023,2024,2025,2026],"Lavados":[4430,4697,4280,3620,1064],"C. Aceite":[348,346,273,255,83],"Escape":[123,146,94,128,7],"Tren":[0,0,0,7,7]}},"Mandela":{"meses":["Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre","Enero","Febrero","Marzo","Abril","Mayo"],"data":{"Lavados":[30,17,24,19,21,28,20,16,23,20,11,10,3],"C. Aceite":[14,11,17,14,25,30,20,37,31,10,16,18,21],"Tapizados":[0,2,0,0,0,0,0,0,0,0,0,1,0],"Pulido":[0,0,0,0,0,0,0,0,0,0,0,0,0],"Escape":[1,1,4,0,3,3,5,0,2,2,0,0,1],"Tren":[5,8,8,4,8,11,10,6,8,3,8,12,6],"Distribución":[0,2,2,2,4,11,6,6,5,6,3,5,4],"Ref. Agua":[0,2,1,1,2,7,3,1,1,1,2,3,3],"Bujías":[2,2,0,0,0,3,1,1,0,1,0,0,2],"Otros":[3,3,4,4,6,3,7,20,18,2,7,4,6],"Tapas":[0,0,0,0,0,0,0,0,0,0,0,0,1]},"anual":{"years":[2025,2026],"Lavados":[175,67],"C. Aceite":[168,96],"Tren":[60,37],"Distribución":[33,23],"Otros":[50,37]}}};
+let meses = SHEET_DATA.Alicia.meses;
+let talleres = {
+  Alicia:  { data: SHEET_DATA.Alicia.data,  anual: SHEET_DATA.Alicia.anual  },
+  Funes:   { data: SHEET_DATA.Funes.data,   anual: SHEET_DATA.Funes.anual   },
+  Mandela: { data: SHEET_DATA.Mandela.data, anual: SHEET_DATA.Mandela.anual }
+};
+
+// ── ACTUALIZACIÓN DESDE SHEET ────────────────────────────────────────────────
+const SHEET_ID = '15pm8XfSla5MUajrHhTXEg4XiejaRsn45RxC6RqSJP6k';
+async function actualizarDesdeSheet() {
+  const btn = document.getElementById('btn-update');
+  if(btn){ btn.textContent='⏳ Leyendo Sheet...'; btn.disabled=true; }
+  const prompt = `Use the Google Drive MCP to read spreadsheet ID "${SHEET_ID}", tabs "Analisis Alicia", "Analisis Funes", "Analisis Mandela". Row 2 = month headers (ALL columns, no limit). Rows 3-14 = service rows (col A = name, rest = monthly counts). Return ONLY valid JSON no markdown: {"Alicia":{"meses":[...],"data":{"ServiceName":[...],...}}, "Funes":{...}, "Mandela":{...}}`;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3000,
+        mcp_servers:[{type:'url',url:'https://drivemcp.googleapis.com/mcp/v1',name:'gdrive'}],
+        messages:[{role:'user',content:prompt}]})
+    });
+    if(!res.ok) throw new Error('API '+res.status);
+    const d = await res.json();
+    const txt = (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    const match = txt.match(/\{[\s\S]*\}/);
+    if(!match) throw new Error('Sin JSON');
+    const parsed = JSON.parse(match[0]);
+    ['Alicia','Funes','Mandela'].forEach(t=>{
+      if(!parsed[t]) return;
+      if(parsed[t].meses?.length) meses = parsed[t].meses;
+      const normData={};
+      Object.entries(parsed[t].data||{}).forEach(([k,v])=>{ const nk=normName(k)||k; normData[nk]=v; });
+      talleres[t].data = normData;
+    });
+    const badge=document.getElementById('header-badge');
+    badge.textContent=`📅 ${meses[0]} — ${meses[meses.length-1]}`;
+    badge.style.cssText='background:rgba(74,222,128,0.15);border-color:rgba(74,222,128,0.4);color:#4ADE80;padding:4px 11px;border-radius:20px;border:1px solid;font-size:10px;font-weight:500';
+    setTimeout(()=>badge.style.cssText='',3000);
+    activeServices=null; selectedMes=1;
+    buildUltimoMes(); buildCompare3(); refreshAll();
+    if(btn){ btn.textContent='✓ Actualizado'; setTimeout(()=>{btn.textContent='↻ Actualizar Sheet';btn.disabled=false;},2000); }
+  } catch(e) {
+    console.error(e);
+    if(btn){ btn.textContent='⚠ Reintentar'; btn.disabled=false; }
+  }
+}
+
+// =====================================================
+// STATE
+// =====================================================
+const defaultTimes = {
+  'Lavados':30,'C. Aceite':45,'Tren':180,'Otros':60,'Distribución':240,
+  'Ref. Agua':60,'Bujías':40,'Tapas':90,'Tapizados':120,'Escape':90,'Pulido':30
+};
+let serviceTimes = {...defaultTimes};
+let activeTab = 'Todos';
+let activeServices = null; // null = todos
+let selectedMes = 0; // se actualiza en init al último mes disponible
+let timeView = 'horas';
+
+let chartMain, chartDonut, chartAnual, chartTimeBar, chartTimeDonut;
+let chartMesCompare, chartCompare3, chartTallerDonut;
+
+const cgrid = 'rgba(245,196,0,0.07)';
+const tcol = '#555';
+const bScales = () => ({
+  x:{ticks:{color:tcol,font:{size:10,family:'DM Mono'},maxRotation:40,autoSkip:false},grid:{color:cgrid},border:{color:'transparent'}},
+  y:{ticks:{color:tcol,font:{size:10,family:'DM Mono'}},grid:{color:cgrid},border:{color:'transparent'}}
+});
+// Etiquetas de meses desambiguadas (si hay duplicados, agrega sufijo 2/3...)
+function mesLabels() {
+  const count = {};
+  const seen = {};
+  meses.forEach(m => { count[m] = (count[m]||0)+1; });
+  return meses.map(m => {
+    if (count[m] <= 1) return m;
+    seen[m] = (seen[m]||0)+1;
+    return seen[m] === 1 ? m+" '24" : m+" '25";
+  });
+}
+const bTooltip = (accentColor='#F5C400') => ({
+  backgroundColor:'#1C1C1C',borderColor:'rgba(245,196,0,0.28)',borderWidth:1,
+  titleColor:accentColor,bodyColor:'#D0D0D0',padding:10,
+  titleFont:{family:'Bebas Neue',size:14},bodyFont:{family:'DM Mono',size:11},
+  callbacks:{title:(items)=>mesLabels()[items[0].dataIndex]||items[0].label}
+});
+
+// =====================================================
+// HELPERS
+// =====================================================
+function currentData() {
+  if (activeTab === 'Todos') {
+    // Merge todos los talleres
+    const merged = {};
+    const names = ['Alicia','Funes','Mandela'];
+    names.forEach(t => {
+      Object.entries(talleres[t].data).forEach(([svc, vals]) => {
+        if (!merged[svc]) merged[svc] = new Array(meses.length).fill(0);
+        vals.forEach((v,i) => merged[svc][i] += v);
+      });
+    });
+    return merged;
+  }
+  return talleres[activeTab].data;
+}
+function currentServices() {
+  const d = currentData();
+  return Object.keys(d).filter(s => d[s].some(v=>v>0));
+}
+function visibleServices() {
+  const cs = currentServices();
+  if (!activeServices) return cs;
+  return activeServices.filter(s => cs.includes(s));
+}
+function totPerMes(svcList) {
+  const d = currentData();
+  return meses.map((_,i) => svcList.reduce((s,k)=>(s+(d[k]?.[i]||0)),0));
+}
+function totalSvc(s) {
+  const d = currentData();
+  return (d[s]||[]).reduce((a,b)=>a+b,0);
+}
+
+// =====================================================
+// TAB SWITCHING
+// =====================================================
+document.querySelectorAll('.ttab').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.ttab').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+    activeTab = el.dataset.tab;
+    activeServices = null;
+    selectedMes = 1;
+    document.getElementById('compare-panel').style.display = activeTab === 'Todos' ? 'block' : 'none';
+    document.getElementById('header-sub').textContent = activeTab === 'Todos' ? 'Análisis multi-taller' : `Taller ${activeTab}`;
+    if (activeTab !== 'Todos') buildCompare3(); // rebuild anual too
+    refreshAll();
+  });
+});
+
+// =====================================================
+// TABS INITIAL STATE
+// =====================================================
+function initTabState() {
+  document.getElementById('compare-panel').style.display = 'block';
+}
+
+// =====================================================
+// CHIPS
+// =====================================================
+function buildChips() {
+  const cs = currentServices();
+  const vis = visibleServices();
+  const allA = !activeServices || vis.length === cs.length;
+  const wrap = document.getElementById('chips');
+  wrap.innerHTML = `<div class="chip all-chip ${allA?'active':''}" data-s="ALL">Todos</div>` +
+    cs.map(s => {
+      const on = allA || vis.includes(s);
+      return `<div class="chip ${on?'active':''}" data-s="${s}" 
+        style="${on?`border-color:${serviceColors[s]};background:${serviceColors[s]}${vis.length===1?'':'33'};color:${['Lavados','Tapizados'].includes(s)?'#000':serviceColors[s]};`:''}">${s}</div>`;
+    }).join('');
+  wrap.querySelectorAll('.chip').forEach(el => {
+    el.addEventListener('click', () => {
+      const s = el.dataset.s;
+      const cs2 = currentServices();
+      if (s === 'ALL') { activeServices = null; }
+      else {
+        const cur = activeServices || [...cs2];
+        if (cur.length === cs2.length) { activeServices = [s]; }
+        else if (cur.includes(s) && cur.length === 1) { activeServices = null; }
+        else if (cur.includes(s)) { activeServices = cur.filter(x=>x!==s); if (!activeServices.length) activeServices = null; }
+        else { activeServices = [...cur, s]; if (activeServices.length === cs2.length) activeServices = null; }
+      }
+      refreshAll();
+    });
+  });
+}
+
+// =====================================================
+// KPIs
+// =====================================================
+function buildKPIs() {
+  const svc = visibleServices();
+  const tpm = totPerMes(svc);
+  const total = tpm.reduce((a,b)=>a+b,0);
+  const d = currentData();
+  const lavData = d['Lavados'] || [];
+  const aceData = d['C. Aceite'] || [];
+  const lavTotal = svc.includes('Lavados') ? lavData.reduce((a,b)=>a+b,0) : null;
+  const aceTotal = svc.includes('C. Aceite') ? aceData.reduce((a,b)=>a+b,0) : null;
+  const picIdx = tpm.indexOf(Math.max(...tpm));
+  const n = meses.length || 1;
+  const prom = Math.round(total/n);
+  const kpis = [
+    {l:'Total servicios',v:total,d:`Últimos ${n} meses`,c:''},
+    {l:'Lavados',v:lavTotal??'—',d:lavTotal!=null?`Avg ${Math.round(lavTotal/n)}/mes`:'',c:''},
+    {l:'Cambios aceite',v:aceTotal??'—',d:aceTotal!=null?`Avg ${Math.round(aceTotal/n)}/mes`:'',c:''},
+    {l:'Mes pico',v:meses[picIdx],d:`${tpm[picIdx]} servicios`,c:'up'},
+    {l:'Promedio mensual',v:prom,d:`Mín ${Math.min(...tpm)} · Máx ${Math.max(...tpm)}`,c:''},
+  ];
+  document.getElementById('kpi-grid').innerHTML = kpis.map(k=>`
+    <div class="kpi-card">
+      <div class="kpi-label">${k.l}</div>
+      <div class="kpi-value">${k.v}</div>
+      <div class="kpi-delta ${k.c}">${k.d}</div>
+    </div>`).join('');
+}
+
+// =====================================================
+// TIME CONFIG
+// =====================================================
+function resetTimes() {
+  serviceTimes = {...defaultTimes};
+  document.querySelectorAll('.tinput').forEach(inp => { inp.value = serviceTimes[inp.dataset.s]||30; });
+  refreshTimeAnalysis();
+}
+function buildTimeConfig() {
+  const cs = currentServices();
+  document.getElementById('time-config-grid').innerHTML = cs.map(s => {
+    const m = serviceTimes[s]||30;
+    const h=Math.floor(m/60), mn=m%60;
+    return `<div class="tinput-card">
+      <div class="tsvc-label"><span class="tdot" style="background:${serviceColors[s]||'#888'}"></span>${s}</div>
+      <div class="trow"><input type="number" min="5" max="600" step="5" value="${m}" class="tinput" data-s="${s}" oninput="onTimeChange('${s}',this.value)"></div>
+      <div class="tunit" style="margin-top:3px;font-size:10px">minutos</div>
+      <div class="tbadge" id="tb_${s.replace(/\W/g,'_')}">${h>0?h+'h ':''}${mn>0||h===0?mn+'m':''}</div>
+    </div>`;
+  }).join('');
+}
+function onTimeChange(svc, val) {
+  const v = Math.max(5, parseInt(val)||5);
+  serviceTimes[svc] = v;
+  const h=Math.floor(v/60), m=v%60;
+  const b = document.getElementById('tb_'+svc.replace(/\W/g,'_'));
+  if(b) b.textContent = (h>0?h+'h ':'')+((m>0||h===0)?m+'m':'');
+  refreshTimeAnalysis();
+}
+function horasPorMes() {
+  const svc = visibleServices();
+  const d = currentData();
+  return meses.map((_,i)=>svc.reduce((s,k)=>s+((d[k]?.[i]||0)*(serviceTimes[k]||30))/60,0));
+}
+function setTimeView(mode) {
+  timeView = mode;
+  document.getElementById('vt-horas').classList.toggle('active',mode==='horas');
+  document.getElementById('vt-prom').classList.toggle('active',mode==='prom');
+  buildTimeBarChart();
+}
+function buildTKPIs() {
+  const hpm = horasPorMes();
+  const totH = hpm.reduce((a,b)=>a+b,0);
+  const prom = totH/12;
+  const picI = hpm.indexOf(Math.max(...hpm));
+  const svc = visibleServices();
+  const d = currentData();
+  const porSvc = svc.map(s=>({name:s,h:(d[s]||[]).reduce((a,b)=>a+b,0)*(serviceTimes[s]||30)/60})).sort((a,b)=>b.h-a.h);
+  document.getElementById('tkpi-grid').innerHTML = `
+    <div class="tkpi"><div class="label">Total horas anuales</div><div class="value">${Math.round(totH)}h</div><div class="sub">~${(totH/22/12).toFixed(1)}h/día hábil</div></div>
+    <div class="tkpi"><div class="label">Promedio mensual</div><div class="value">${Math.round(prom)}h</div><div class="sub">~${(prom/22).toFixed(1)}h por día</div></div>
+    <div class="tkpi"><div class="label">Mes más cargado</div><div class="value">${meses[picI]}</div><div class="sub">${Math.round(hpm[picI])}h ese mes</div></div>
+    <div class="tkpi"><div class="label">Servicio más pesado</div><div class="value" style="font-size:18px;padding-top:4px">${porSvc[0]?.name||'—'}</div><div class="sub">${Math.round(porSvc[0]?.h||0)}h · ${totH>0?((porSvc[0]?.h||0)/totH*100).toFixed(1):0}%</div></div>`;
+}
+function buildTimeBarChart() {
+  if (chartTimeBar) chartTimeBar.destroy();
+  const ctx = document.getElementById('chartTimeBar').getContext('2d');
+  const hpm = horasPorMes();
+  const cpm = totPerMes(visibleServices());
+  const disp = timeView==='horas' ? hpm.map(h=>+h.toFixed(1)) : hpm.map(h=>+(h/22).toFixed(2));
+  chartTimeBar = new Chart(ctx, {
+    type:'bar',
+    data:{labels:mesLabels(),datasets:[
+      {label:timeView==='horas'?'Horas totales':'Horas/día',data:disp,backgroundColor:'rgba(96,165,250,0.75)',hoverBackgroundColor:'#60A5FA',borderRadius:3,yAxisID:'yH'},
+      {label:'Cant. servicios',data:cpm,type:'line',borderColor:'#F5C400',backgroundColor:'transparent',pointBackgroundColor:'#F5C400',tension:.3,borderWidth:2,pointRadius:4,yAxisID:'yC'}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:true,labels:{color:'#9A9580',font:{size:10,family:'DM Sans'},boxWidth:10,boxHeight:10}},tooltip:bTooltip('#60A5FA')},
+      scales:{
+        x:{ticks:{color:tcol,font:{size:10,family:'DM Mono'},maxRotation:40,autoSkip:false},grid:{color:cgrid},border:{color:'transparent'}},
+        yH:{position:'left',ticks:{color:'#60A5FA',font:{size:10,family:'DM Mono'}},grid:{color:cgrid},border:{color:'transparent'}},
+        yC:{position:'right',ticks:{color:'#F5C400',font:{size:10,family:'DM Mono'}},grid:{display:false},border:{color:'transparent'}}
+      }}
+  });
+}
+function buildTimeDonutChart() {
+  if (chartTimeDonut) chartTimeDonut.destroy();
+  const ctx = document.getElementById('chartTimeDonut').getContext('2d');
+  const svc = visibleServices();
+  const d = currentData();
+  const horas = svc.map(s=>(d[s]||[]).reduce((a,b)=>a+b,0)*(serviceTimes[s]||30)/60);
+  const totH = horas.reduce((a,b)=>a+b,0);
+  chartTimeDonut = new Chart(ctx,{type:'doughnut',
+    data:{labels:svc,datasets:[{data:horas.map(h=>+h.toFixed(1)),backgroundColor:svc.map(s=>serviceColors[s]||'#888'),borderWidth:2,borderColor:'#141414',hoverBorderColor:'#60A5FA'}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1C1C1C',borderColor:'rgba(96,165,250,.3)',borderWidth:1,titleColor:'#60A5FA',bodyColor:'#D0D0D0',titleFont:{family:'Bebas Neue',size:13},bodyFont:{family:'DM Mono',size:11},callbacks:{label:(it)=>` ${it.label}: ${it.raw}h (${totH>0?((it.raw/totH)*100).toFixed(1):0}%)`}}},cutout:'60%'}
+  });
+  document.getElementById('time-donut-leg').innerHTML = svc.map((s,i)=>`
+    <span style="display:flex;align-items:center;gap:3px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:${serviceColors[s]||'#888'};display:inline-block"></span>
+      <span style="color:#9A9580">${s}</span>
+      <span style="color:#60A5FA;font-weight:600">${totH>0?((horas[i]/totH)*100).toFixed(1):0}%</span>
+    </span>`).join('');
+}
+function buildTimeTable() {
+  const svc = visibleServices();
+  const d = currentData();
+  const totCant = svc.reduce((s,k)=>(s+(d[k]||[]).reduce((a,b)=>a+b,0)),0);
+  const rows = svc.map(s=>{
+    const cant=(d[s]||[]).reduce((a,b)=>a+b,0);
+    const mins=serviceTimes[s]||30;
+    const h=+(cant*mins/60).toFixed(1);
+    const pc=totCant>0?(cant/totCant*100).toFixed(1):'0.0';
+    return {name:s,cant,mins,h,pc};
+  });
+  const totH = rows.reduce((s,r)=>s+r.h,0);
+  rows.forEach(r=>{ r.ph=totH>0?(r.h/totH*100).toFixed(1):'0.0'; r.delta=(parseFloat(r.ph)-parseFloat(r.pc)).toFixed(1); });
+  rows.sort((a,b)=>b.h-a.h);
+  let html=`<thead><tr><th>Servicio</th><th class="num">Tiempo/srv</th><th class="num">Cant.</th><th class="num">% cant.</th><th class="num">Horas</th><th class="num">% tiempo</th><th class="num">Δ pp</th></tr></thead><tbody>`;
+  rows.forEach(r=>{
+    const d2=parseFloat(r.delta);
+    const dc=d2>2?'#4ADE80':d2<-2?'#F87171':'#9A9580';
+    const ds=d2>0?'+':'';
+    html+=`<tr>
+      <td class="svc-name" style="color:${serviceColors[r.name]||'#888'}">${r.name}</td>
+      <td class="num" style="color:#9A9580">${r.mins>=60?Math.floor(r.mins/60)+'h'+(r.mins%60?' '+r.mins%60+'m':''):r.mins+'m'}</td>
+      <td class="num">${r.cant}</td><td class="num" style="color:#F5C400">${r.pc}%</td>
+      <td class="num" style="color:#60A5FA;font-weight:600">${r.h}h</td>
+      <td class="num" style="color:#60A5FA">${r.ph}%</td>
+      <td class="num" style="color:${dc};font-weight:600">${ds}${r.delta}</td>
+    </tr>`;
+  });
+  html+=`<tr class="tr-tot"><td>Total</td><td class="num">—</td><td class="num">${totCant}</td><td class="num" style="color:#F5C400">100%</td><td class="num" style="color:#60A5FA;font-weight:600">${totH.toFixed(1)}h</td><td class="num" style="color:#60A5FA">100%</td><td class="num">—</td></tr></tbody>`;
+  document.getElementById('table-time').innerHTML = html;
+}
+function refreshTimeAnalysis() {
+  buildTimeConfig();
+  buildTKPIs();
+  buildTimeBarChart();
+  buildTimeDonutChart();
+  buildTimeTable();
+}
+
+// =====================================================
+// MAIN CHART
+// =====================================================
+function buildMainChart() {
+  if(chartMain) chartMain.destroy();
+  const ctx = document.getElementById('chartMain').getContext('2d');
+  const svc = visibleServices();
+  const d = currentData();
+  if (svc.length === 1) {
+    chartMain = new Chart(ctx,{type:'line',data:{labels:mesLabels(),datasets:[{label:svc[0],data:d[svc[0]],borderColor:serviceColors[svc[0]],backgroundColor:serviceColors[svc[0]]+'22',fill:true,tension:.35,pointBackgroundColor:serviceColors[svc[0]],pointRadius:5,pointHoverRadius:8,borderWidth:2.5}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:bTooltip()},scales:bScales(),onClick:(e,els)=>{if(els.length) onBarClick(els[0].index)}}});
+  } else {
+    chartMain = new Chart(ctx,{type:'bar',data:{labels:mesLabels(),datasets:svc.map(s=>({label:s,data:d[s],backgroundColor:serviceColors[s]+'CC',hoverBackgroundColor:serviceColors[s],borderRadius:2,borderSkipped:false}))},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:bTooltip()},scales:{...bScales(),x:{...bScales().x,stacked:true},y:{...bScales().y,stacked:true}},onClick:(e,els)=>{if(els.length) onBarClick(els[0].index)}}});
+  }
+  document.getElementById('main-chart-title').textContent = activeTab==='Todos'?'Todos los talleres — servicios por mes':`Taller ${activeTab} — últimos 12 meses`;
+}
+
+// =====================================================
+// DONUT
+// =====================================================
+function buildDonutChart() {
+  if(chartDonut) chartDonut.destroy();
+  const ctx = document.getElementById('chartDonut').getContext('2d');
+  const svc = visibleServices();
+  const tots = svc.map(s=>totalSvc(s));
+  const totAll = tots.reduce((a,b)=>a+b,0);
+  chartDonut = new Chart(ctx,{type:'doughnut',
+    data:{labels:svc,datasets:[{data:tots,backgroundColor:svc.map(s=>serviceColors[s]),borderWidth:2,borderColor:'#141414',hoverBorderColor:'#F5C400'}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1C1C1C',borderColor:'rgba(245,196,0,.3)',borderWidth:1,titleColor:'#F5C400',bodyColor:'#D0D0D0',titleFont:{family:'Bebas Neue',size:13},bodyFont:{family:'DM Mono',size:11},callbacks:{label:(it)=>` ${it.label}: ${it.raw} (${totAll>0?((it.raw/totAll)*100).toFixed(1):0}%)`}}},cutout:'62%'}
+  });
+  document.getElementById('donut-leg').innerHTML = svc.map((s,i)=>`
+    <span style="display:flex;align-items:center;gap:3px">
+      <span style="width:7px;height:7px;border-radius:50%;background:${serviceColors[s]};display:inline-block"></span>
+      <span style="color:#9A9580">${s}</span>
+      <span style="color:${serviceColors[s]};font-weight:600">${totAll>0?((tots[i]/totAll)*100).toFixed(1):0}%</span>
+    </span>`).join('');
+}
+
+// =====================================================
+// ANUAL CHART
+// =====================================================
+function buildAnualChart() {
+  if(chartAnual) chartAnual.destroy();
+  const ctx = document.getElementById('chartAnual').getContext('2d');
+  let an;
+  if (activeTab === 'Todos' || activeTab === 'Alicia') an = talleres.Alicia.anual;
+  else if (activeTab === 'Funes') an = talleres.Funes.anual;
+  else an = talleres.Mandela.anual;
+  if (!an) {
+    document.getElementById('anual-sub').textContent = 'Sin datos históricos disponibles para este taller';
+    ctx.canvas.style.display = 'none'; return;
+  }
+  ctx.canvas.style.display = 'block';
+  const keys = Object.keys(an).filter(k=>k!=='years');
+  const dashes = [undefined,[5,3],[2,3],[7,3],[4,4]];
+  chartAnual = new Chart(ctx,{type:'line',
+    data:{labels:an.years,datasets:keys.map((s,i)=>({label:s,data:an[s],borderColor:serviceColors[s]||'#888',backgroundColor:'transparent',pointBackgroundColor:serviceColors[s]||'#888',tension:.3,borderDash:dashes[i]||[],borderWidth:2,pointRadius:4,pointHoverRadius:7}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'#9A9580',font:{size:10,family:'DM Sans'},boxWidth:10,boxHeight:10}},tooltip:{...bTooltip(),callbacks:{title:(its)=>String(an.years[its[0].dataIndex])}}},scales:bScales()}
+  });
+  document.getElementById('anual-sub').textContent = `Datos desde ${an.years[0]} · taller ${activeTab==='Todos'?'Alicia (referencia)':activeTab}`;
+  document.getElementById('anual-table-title').textContent = `Evolución anual — ${activeTab==='Todos'?'Alicia':activeTab}`;
+}
+
+// =====================================================
+// HEATMAP
+// =====================================================
+function buildHeatmap() {
+  const svc = currentServices();
+  const d = currentData();
+  let html = '<tr><th style="text-align:left">Servicio</th>'+mesLabels().map(m=>`<th>${m.slice(0,3)}</th>`).join('')+'<th>Total</th></tr>';
+  svc.forEach(s => {
+    const vals = d[s]||[];
+    const max = Math.max(...vals,1);
+    const tot = vals.reduce((a,b)=>a+b,0);
+    const col = serviceColors[s]||'#888';
+    html += `<tr><td class="rlabel">${s}</td>`;
+    vals.forEach((v,i) => {
+      const inten = v/max;
+      const alpha = Math.round(inten*200+30).toString(16).padStart(2,'0');
+      const tc = inten>0.6?'#000':'#9A9580';
+      html += `<td style="background:${col}${alpha};color:${tc}" data-s="${s}" data-i="${i}"
+        onmouseenter="showTT(event,'${s}','${meses[i]}',${v})" onmouseleave="hideTT()" onclick="onBarClick(${i})">${v||'·'}</td>`;
+    });
+    html += `<td style="color:${col};font-family:'DM Mono',monospace;font-size:10px;font-weight:600">${tot}</td></tr>`;
+  });
+  const tpm = totPerMes(svc);
+  html += `<tr style="border-top:1px solid rgba(245,196,0,.2)"><td class="rlabel" style="color:#F5C400;font-weight:600">Total</td>${tpm.map(t=>`<td style="color:#F5C400;font-family:'DM Mono',monospace;font-size:10px;font-weight:600">${t}</td>`).join('')}<td style="color:#F5C400;font-family:'DM Mono',monospace;font-size:10px;font-weight:600">${tpm.reduce((a,b)=>a+b,0)}</td></tr>`;
+  document.getElementById('hmap').innerHTML = html;
+}
+
+// =====================================================
+// RANKING
+// =====================================================
+function buildRanking() {
+  const svc = visibleServices();
+  const tots = svc.map(s=>({name:s,val:totalSvc(s)})).sort((a,b)=>b.val-a.val);
+  const grand = tots.reduce((s,t)=>s+t.val,0);
+  const maxV = tots[0]?.val||1;
+  document.getElementById('rank-sub').textContent = `${activeTab==='Todos'?'Todos los talleres':activeTab} · total ${grand}`;
+  document.getElementById('rank-list').innerHTML = tots.map((t,i)=>`
+    <div class="rank-row">
+      <div class="rnum">${String(i+1).padStart(2,'0')}</div>
+      <div class="rname">${t.name}</div>
+      <div class="rbar-wrap"><div class="rbar-bg"><div class="rbar-fill" style="width:${Math.round(t.val/maxV*100)}%;background:${serviceColors[t.name]||'#888'}"></div></div></div>
+      <div class="rval">${t.val}</div>
+      <div class="rpct">${grand>0?((t.val/grand)*100).toFixed(1):0}%</div>
+    </div>`).join('');
+}
+
+// =====================================================
+// MES DETAIL
+// =====================================================
+function buildMesDetail(idx) {
+  selectedMes = idx;
+  // Poblar y sincronizar select
+  const sel = document.getElementById('sel-mes-detail');
+  if(sel) {
+    sel.innerHTML = mesLabels().map((m,i)=>`<option value="${i}">${m}</option>`).join('');
+    sel.value = String(idx);
+  }
+  const svc = currentServices();
+  const d = currentData();
+  const vals = svc.map(s=>({name:s,val:d[s]?.[idx]||0})).sort((a,b)=>b.val-a.val);
+  const maxV = vals[0]?.val||1;
+  const totM = vals.reduce((s,v)=>s+v.val,0);
+  document.getElementById('mes-detail').innerHTML = vals.map(v=>`
+    <div style="display:grid;grid-template-columns:100px 1fr 34px 40px;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid rgba(245,196,0,.06)">
+      <div style="font-size:11px;color:#D0D0D0">${v.name}</div>
+      <div class="rbar-bg"><div class="rbar-fill" style="width:${maxV>0?Math.round(v.val/maxV*100):0}%;background:${serviceColors[v.name]||'#888'}"></div></div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:${serviceColors[v.name]||'#888'};text-align:right">${v.val}</div>
+      <div style="font-size:10px;color:#6B6B6B;text-align:right">${totM>0?((v.val/totM)*100).toFixed(1):0}%</div>
+    </div>`).join('');
+}
+function onBarClick(idx) { buildMesDetail(idx); }
+
+// =====================================================
+// MES COMPARE
+// =====================================================
+function buildMesCompareSelects() {
+  const opts = mesLabels().map((m,i)=>`<option value="${i}">${m}</option>`).join('');
+  // Select de desglose — apunta al último mes por defecto
+  const selDet = document.getElementById('sel-mes-detail');
+  if(selDet) {
+    selDet.innerHTML = mesLabels().map((m,i)=>`<option value="${i}">${m}</option>`).join('');
+    selDet.value = String(meses.length - 1);
+  }
+  // Selects de comparación
+  document.getElementById('selA').innerHTML = opts;
+  document.getElementById('selB').innerHTML = opts;
+  document.getElementById('selA').value = '0';
+  document.getElementById('selB').value = Math.min(1, meses.length-1).toString();
+  document.getElementById('selA').addEventListener('change', buildMesCompareChart);
+  document.getElementById('selB').addEventListener('change', buildMesCompareChart);
+}
+function buildMesCompareChart() {
+  if(chartMesCompare) chartMesCompare.destroy();
+  const ctx = document.getElementById('chartMesCompare').getContext('2d');
+  const a = parseInt(document.getElementById('selA').value);
+  const b = parseInt(document.getElementById('selB').value);
+  const svc = currentServices();
+  const d = currentData();
+  chartMesCompare = new Chart(ctx,{type:'bar',
+    data:{labels:svc,datasets:[
+      {label:mesLabels()[a],data:svc.map(s=>d[s]?.[a]||0),backgroundColor:'rgba(245,196,0,0.8)',hoverBackgroundColor:'#F5C400',borderRadius:3},
+      {label:mesLabels()[b],data:svc.map(s=>d[s]?.[b]||0),backgroundColor:'rgba(96,165,250,0.8)',hoverBackgroundColor:'#60A5FA',borderRadius:3}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      plugins:{legend:{display:true,labels:{color:'#9A9580',font:{size:10,family:'DM Sans'},boxWidth:10,boxHeight:10}},tooltip:{backgroundColor:'#1C1C1C',borderColor:'rgba(245,196,0,.3)',borderWidth:1,titleColor:'#F5C400',bodyColor:'#D0D0D0',titleFont:{family:'Bebas Neue',size:13},bodyFont:{family:'DM Mono',size:11}}},
+      scales:{x:{ticks:{color:tcol,font:{size:10,family:'DM Mono'}},grid:{color:cgrid},border:{color:'transparent'}},y:{ticks:{color:'#D0D0D0',font:{size:10,family:'DM Sans'}},grid:{color:cgrid},border:{color:'transparent'}}}}
+  });
+}
+
+// =====================================================
+// MAIN TABLE
+// =====================================================
+function buildMainTable() {
+  const svc = currentServices();
+  const d = currentData();
+  const tpm = totPerMes(svc);
+  let html = '<thead><tr><th>Servicio</th>'+mesLabels().map(m=>`<th class="num">${m.slice(0,3)}</th>`).join('')+'<th class="num">Total</th></tr></thead><tbody>';
+  svc.forEach(s=>{
+    const tot=(d[s]||[]).reduce((a,b)=>a+b,0);
+    const mx=Math.max(...(d[s]||[]),1);
+    html+=`<tr><td class="svc-name" style="color:${serviceColors[s]||'#888'}">${s}</td>`;
+    (d[s]||[]).forEach(v=>{
+      const bw=Math.round(v/mx*28);
+      html+=`<td class="num">${v>0?`<span class="ibar" style="width:${bw}px;background:${serviceColors[s]||'#888'};opacity:.6"></span>${v}`:'<span style="color:#2a2a2a">—</span>'}</td>`;
+    });
+    html+=`<td class="num tc">${tot}</td></tr>`;
+  });
+  html+=`<tr class="tr-tot"><td>Total</td>${tpm.map(t=>`<td class="num">${t}</td>`).join('')}<td class="num">${tpm.reduce((a,b)=>a+b,0)}</td></tr></tbody>`;
+  document.getElementById('table-main').innerHTML = html;
+}
+
+// =====================================================
+// ANUAL TABLE
+// =====================================================
+function buildAnualTable() {
+  const t = activeTab === 'Todos' ? 'Alicia' : activeTab;
+  const an = talleres[t].anual;
+  if (!an) { document.getElementById('table-anual').innerHTML='<tbody><tr><td style="color:#555;padding:16px">Sin datos históricos para este taller</td></tr></tbody>'; return; }
+  const keys = Object.keys(an).filter(k=>k!=='years');
+  let html=`<thead><tr><th>Servicio</th>${an.years.map(y=>`<th class="num">${y}</th>`).join('')}</tr></thead><tbody>`;
+  keys.forEach(k=>{html+=`<tr><td class="svc-name" style="color:${serviceColors[k]||'#888'}">${k}</td>${an[k].map(v=>`<td class="num">${v||'—'}</td>`).join('')}</tr>`;});
+  html+='</tbody>';
+  document.getElementById('table-anual').innerHTML=html;
+}
+
+// =====================================================
+// COMPARE 3 TALLERES (modo Todos)
+// =====================================================
+function buildCompare3() {
+  // Barras agrupadas por mes, 3 talleres
+  if(chartCompare3) chartCompare3.destroy();
+  const ctx = document.getElementById('chartCompare3').getContext('2d');
+  const names = ['Alicia','Funes','Mandela'];
+  chartCompare3 = new Chart(ctx,{type:'bar',
+    data:{labels:mesLabels(),datasets:names.map(t=>({label:t,data:meses.map((_,i)=>Object.values(talleres[t].data).reduce((s,arr)=>s+(arr[i]||0),0)),backgroundColor:tallerColors[t]+'BB',hoverBackgroundColor:tallerColors[t],borderRadius:2}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:true,labels:{color:'#9A9580',font:{size:10,family:'DM Sans'},boxWidth:10,boxHeight:10}},tooltip:{backgroundColor:'#1C1C1C',borderColor:'rgba(245,196,0,.3)',borderWidth:1,titleColor:'#F5C400',bodyColor:'#D0D0D0',titleFont:{family:'Bebas Neue',size:14},bodyFont:{family:'DM Mono',size:11},callbacks:{title:(its)=>mesLabels()[its[0].dataIndex]}}},
+      scales:{...bScales()}}
+  });
+  // Donut por taller
+  if(chartTallerDonut) chartTallerDonut.destroy();
+  const ctx2 = document.getElementById('chartTallerDonut').getContext('2d');
+  const totales = names.map(t=>Object.values(talleres[t].data).reduce((s,arr)=>s+arr.reduce((a,b)=>a+b,0),0));
+  const totAll = totales.reduce((a,b)=>a+b,0);
+  chartTallerDonut = new Chart(ctx2,{type:'doughnut',
+    data:{labels:names,datasets:[{data:totales,backgroundColor:names.map(t=>tallerColors[t]),borderWidth:2,borderColor:'#141414',hoverBorderColor:'#F5C400'}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1C1C1C',borderColor:'rgba(245,196,0,.3)',borderWidth:1,titleColor:'#F5C400',bodyColor:'#D0D0D0',titleFont:{family:'Bebas Neue',size:13},bodyFont:{family:'DM Mono',size:11},callbacks:{label:(it)=>` ${it.label}: ${it.raw} (${totAll>0?((it.raw/totAll)*100).toFixed(1):0}%)`}}},cutout:'60%'}
+  });
+  document.getElementById('taller-donut-leg').innerHTML = names.map((t,i)=>`
+    <span style="display:flex;align-items:center;gap:4px">
+      <span style="width:8px;height:8px;border-radius:50%;background:${tallerColors[t]};display:inline-block"></span>
+      <span style="color:#9A9580">${t}</span>
+      <span style="color:${tallerColors[t]};font-weight:600">${totAll>0?((totales[i]/totAll)*100).toFixed(1):0}%</span>
+    </span>`).join('');
+  // Table compare
+  const svcAll = [...new Set(['Alicia','Funes','Mandela'].flatMap(t=>Object.keys(talleres[t].data)))].filter(s=>['Alicia','Funes','Mandela'].some(t=>(talleres[t].data[s]||[]).some(v=>v>0)));
+  let html=`<thead><tr><th>Servicio</th><th class="num" style="color:var(--alicia)">Alicia</th><th class="num" style="color:var(--funes)">Funes</th><th class="num" style="color:var(--mandela)">Mandela</th><th class="num">Total</th></tr></thead><tbody>`;
+  svcAll.forEach(s=>{
+    const va=(talleres.Alicia.data[s]||[]).reduce((a,b)=>a+b,0);
+    const vf=(talleres.Funes.data[s]||[]).reduce((a,b)=>a+b,0);
+    const vm=(talleres.Mandela.data[s]||[]).reduce((a,b)=>a+b,0);
+    const tot=va+vf+vm;
+    if(!tot) return;
+    html+=`<tr>
+      <td class="svc-name" style="color:${serviceColors[s]||'#888'}">${s}</td>
+      <td class="num" style="color:var(--alicia)">${va||'—'}</td>
+      <td class="num" style="color:var(--funes)">${vf||'—'}</td>
+      <td class="num" style="color:var(--mandela)">${vm||'—'}</td>
+      <td class="num tc">${tot}</td></tr>`;
+  });
+  // Fila totales por taller
+  const tA=Object.values(talleres.Alicia.data).reduce((s,arr)=>s+arr.reduce((a,b)=>a+b,0),0);
+  const tF=Object.values(talleres.Funes.data).reduce((s,arr)=>s+arr.reduce((a,b)=>a+b,0),0);
+  const tM=Object.values(talleres.Mandela.data).reduce((s,arr)=>s+arr.reduce((a,b)=>a+b,0),0);
+  html+=`<tr class="tr-tot"><td>Total</td><td class="num" style="color:var(--alicia)">${tA}</td><td class="num" style="color:var(--funes)">${tF}</td><td class="num" style="color:var(--mandela)">${tM}</td><td class="num">${tA+tF+tM}</td></tr></tbody>`;
+  document.getElementById('table-compare3').innerHTML=html;
+}
+
+// =====================================================
+// TOOLTIP
+// =====================================================
+function showTT(e,svc,mes,val){
+  const tt=document.getElementById('tooltip');
+  document.getElementById('tt-title').textContent=`${svc} · ${mes}`;
+  document.getElementById('tt-body').innerHTML=`<span style="color:#F5C400;font-family:'DM Mono',monospace;font-size:15px;font-weight:600">${val}</span> <span style="color:#666;font-size:11px">servicios</span>`;
+  tt.classList.add('show');
+}
+function hideTT(){document.getElementById('tooltip').classList.remove('show')}
+document.addEventListener('mousemove',e=>{
+  const tt=document.getElementById('tooltip');
+  if(tt.classList.contains('show')){tt.style.left=(e.clientX+14)+'px';tt.style.top=(e.clientY-40)+'px';}
+});
+
+
+// =====================================================
+// RESUMEN ÚLTIMO MES
+// =====================================================
+function buildUltimoMes() {
+  const n = meses.length;
+  const lastIdx = n - 1;
+  const prevIdx = n - 2;
+  const mesNombre = meses[lastIdx];
+  const mesPrevNombre = prevIdx >= 0 ? meses[prevIdx] : null;
+
+  // Calcular totales por taller para el último mes y el anterior
+  const tallerNames = ['Alicia','Funes','Mandela'];
+  const rows = tallerNames.map(t => {
+    const d = talleres[t].data;
+    const total = Object.values(d).reduce((s, arr) => s + (arr[lastIdx] || 0), 0);
+    const prev  = prevIdx >= 0 ? Object.values(d).reduce((s, arr) => s + (arr[prevIdx] || 0), 0) : null;
+    const delta = prev !== null ? total - prev : null;
+    const lav   = (d['Lavados']   || [])[lastIdx] || 0;
+    const ace   = (d['C. Aceite'] || [])[lastIdx] || 0;
+    const tren  = (d['Tren']      || [])[lastIdx] || 0;
+    return { t, total, prev, delta, lav, ace, tren };
+  });
+
+  // Totales consolidados
+  const totTotal = rows.reduce((s, r) => s + r.total, 0);
+  const totPrev  = rows[0].prev !== null ? rows.reduce((s, r) => s + (r.prev||0), 0) : null;
+  const totDelta = totPrev !== null ? totTotal - totPrev : null;
+  const totLav   = rows.reduce((s, r) => s + r.lav, 0);
+  const totAce   = rows.reduce((s, r) => s + r.ace, 0);
+  const totTren  = rows.reduce((s, r) => s + r.tren, 0);
+
+  // Top servicio por taller (excluyendo Lavados para más info)
+  function topSvc(t) {
+    const d = talleres[t].data;
+    let best = null, bestV = 0;
+    Object.entries(d).forEach(([svc, arr]) => {
+      if (svc === 'Lavados') return;
+      const v = arr[lastIdx] || 0;
+      if (v > bestV) { bestV = v; best = svc; }
+    });
+    return best ? `${best} (${bestV})` : '—';
+  }
+
+  function deltaHtml(delta) {
+    if (delta === null) return '';
+    const cls = delta > 0 ? 'color:#4ADE80' : delta < 0 ? 'color:#F87171' : 'color:#606060';
+    const sign = delta > 0 ? '+' : '';
+    return `<span style="${cls};font-size:11px;margin-left:5px">${sign}${delta} vs mes ant.</span>`;
+  }
+
+  // Render tarjetas por taller
+  const tarjetas = rows.map(r => `
+    <div style="background:var(--surface);border:1px solid ${tallerColors[r.t]}44;border-radius:10px;padding:14px 16px;border-top:2px solid ${tallerColors[r.t]}">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.1em;color:${tallerColors[r.t]};margin-bottom:10px">${r.t}</div>
+      <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--text);line-height:1">${r.total}</span>
+        <span style="font-size:11px;color:var(--muted)">servicios</span>
+        ${deltaHtml(r.delta)}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px">
+        <div style="background:var(--surface2);border-radius:7px;padding:8px 10px">
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">Lavados</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:#F5C400">${r.lav}</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:7px;padding:8px 10px">
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">C. Aceite</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:#E0E0E0">${r.ace}</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:7px;padding:8px 10px">
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">Tren</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:#4ADE80">${r.tren}</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:10px;color:var(--muted2)">↑ Destacado: <span style="color:var(--text)">${topSvc(r.t)}</span></div>
+    </div>`).join('');
+
+  // Tarjeta consolidada
+  const consolidada = `
+    <div style="background:var(--surface);border:1px solid var(--gold-border);border-radius:10px;padding:14px 16px;border-top:2px solid var(--gold);display:flex;flex-direction:column;justify-content:center">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.1em;color:var(--gold);margin-bottom:10px">CONSOLIDADO</div>
+      <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);line-height:1">${totTotal}</span>
+        <span style="font-size:11px;color:var(--muted)">servicios</span>
+        ${deltaHtml(totDelta)}
+      </div>
+      <div style="margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+        <div style="text-align:center">
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Lavados</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:#F5C400">${totLav}</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">C. Aceite</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:#E0E0E0">${totAce}</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Tren</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:#4ADE80">${totTren}</div>
+        </div>
+      </div>
+      ${totPrev !== null ? `<div style="margin-top:12px;font-size:10px;color:var(--muted);border-top:1px solid var(--gold-border);padding-top:8px">Mes anterior (${mesPrevNombre}): <span style="color:var(--text)">${totPrev} servicios</span></div>` : ''}
+    </div>`;
+
+  document.getElementById('ultimo-mes-st').innerHTML =
+    `Resumen — <span style="color:var(--gold)">${mesNombre}</span> (último mes cargado)<span style="flex:1;height:1px;background:var(--gold-border);display:inline-block;margin-left:10px;vertical-align:middle"></span>`;
+
+  document.getElementById('ultimo-mes-content').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+      ${consolidada}${tarjetas}
+    </div>`;
+}
+
+// =====================================================
+// REFRESH
+// =====================================================
+function refreshAll() {
+  buildUltimoMes();
+  buildChips();
+  buildKPIs();
+  refreshTimeAnalysis();
+  buildMainChart();
+  buildDonutChart();
+  buildHeatmap();
+  buildRanking();
+  buildMesDetail(selectedMes);
+  buildAnualChart();
+  buildMainTable();
+  buildAnualTable();
+  buildMesCompareChart();
+}
+
+// =====================================================
+// INIT
+// =====================================================
+function init() {
+  initTabState();
+  buildCompare3();
+  buildMesCompareSelects();
+  selectedMes = meses.length - 1; // siempre arranca en el último mes cargado
+  refreshAll();
+}
+init();
+</script>
+</body>
+</html>
