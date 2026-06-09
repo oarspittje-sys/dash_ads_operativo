@@ -428,86 +428,49 @@
     </div>
     <div class="card-body">
       <div class="tabs">
-        <button class="tab active" onclick="switchTab(event, 'ig')">Alicia</button>
-        <button class="tab" onclick="switchTab(event, 'ig')">Mandela</button>
+        <button class="tab active" onclick="switchTab(event, 'ig')">Autos de Sueños</button>
         <button class="tab" onclick="switchTab(event, 'ig')">Funes</button>
       </div>
 
-      <!-- Alicia -->
-      <div class="tab-content active" id="ig-alicia">
+      <!-- Autos de Sueños (Alicia + Mandela/Roldán) -->
+      <div class="tab-content active" id="ig-autos_suenos">
+        <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">📌 Cuenta compartida — Alicia + Mandela/Roldán</p>
         <div class="metrics-grid">
           <div class="metric-item">
             <label>Seguidores totales</label>
-            <input type="number" id="ig_alicia_seguidores" placeholder="ej: 1240">
+            <input type="number" id="ig_autos_suenos_seguidores" placeholder="ej: 1240">
           </div>
           <div class="metric-item">
             <label>Nuevos seguidores</label>
-            <input type="number" id="ig_alicia_nuevos" placeholder="ej: +18">
+            <input type="number" id="ig_autos_suenos_nuevos" placeholder="ej: +18">
           </div>
           <div class="metric-item">
             <label>Alcance (período)</label>
-            <input type="number" id="ig_alicia_alcance" placeholder="ej: 3400">
+            <input type="number" id="ig_autos_suenos_alcance" placeholder="ej: 3400">
           </div>
           <div class="metric-item">
             <label>Impresiones</label>
-            <input type="number" id="ig_alicia_impresiones" placeholder="ej: 5800">
+            <input type="number" id="ig_autos_suenos_impresiones" placeholder="ej: 5800">
           </div>
           <div class="metric-item">
             <label>Interacciones totales</label>
-            <input type="number" id="ig_alicia_interacciones" placeholder="likes + comentarios + guardados">
+            <input type="number" id="ig_autos_suenos_interacciones" placeholder="likes + comentarios + guardados">
           </div>
           <div class="metric-item">
             <label>Visitas al perfil</label>
-            <input type="number" id="ig_alicia_visitas_perfil" placeholder="ej: 210">
+            <input type="number" id="ig_autos_suenos_visitas_perfil" placeholder="ej: 210">
           </div>
           <div class="metric-item wide">
             <label>Post con más interacción (describir brevemente)</label>
-            <textarea id="ig_alicia_top_post" placeholder="ej: Reel cambio de aceite Golf — 380 reproducciones, 22 likes, 4 comentarios. Publicado el 01/06."></textarea>
+            <textarea id="ig_autos_suenos_top_post" placeholder="ej: Reel cambio de aceite Golf — 380 reproducciones, 22 likes, 4 comentarios. Publicado el 01/06."></textarea>
           </div>
           <div class="metric-item wide">
             <label>Notas / observaciones</label>
-            <textarea id="ig_alicia_notas" placeholder="Algo que haya llamado la atención este período..."></textarea>
+            <textarea id="ig_autos_suenos_notas" placeholder="Algo que haya llamado la atención este período..."></textarea>
           </div>
         </div>
       </div>
 
-      <!-- Mandela -->
-      <div class="tab-content" id="ig-mandela">
-        <div class="metrics-grid">
-          <div class="metric-item">
-            <label>Seguidores totales</label>
-            <input type="number" id="ig_mandela_seguidores" placeholder="ej: 980">
-          </div>
-          <div class="metric-item">
-            <label>Nuevos seguidores</label>
-            <input type="number" id="ig_mandela_nuevos" placeholder="ej: +11">
-          </div>
-          <div class="metric-item">
-            <label>Alcance (período)</label>
-            <input type="number" id="ig_mandela_alcance" placeholder="ej: 2100">
-          </div>
-          <div class="metric-item">
-            <label>Impresiones</label>
-            <input type="number" id="ig_mandela_impresiones" placeholder="ej: 3500">
-          </div>
-          <div class="metric-item">
-            <label>Interacciones totales</label>
-            <input type="number" id="ig_mandela_interacciones" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Visitas al perfil</label>
-            <input type="number" id="ig_mandela_visitas_perfil" placeholder="">
-          </div>
-          <div class="metric-item wide">
-            <label>Post con más interacción</label>
-            <textarea id="ig_mandela_top_post" placeholder="ej: Foto antes/después tren delantero — 18 likes, 2 guardados."></textarea>
-          </div>
-          <div class="metric-item wide">
-            <label>Notas / observaciones</label>
-            <textarea id="ig_mandela_notas" placeholder=""></textarea>
-          </div>
-        </div>
-      </div>
 
       <!-- Funes -->
       <div class="tab-content" id="ig-funes">
@@ -550,6 +513,99 @@
     </div>
   </div>
 
+
+  <!-- FACEBOOK -->
+  <div class="card">
+    <div class="card-header">
+      <span class="icon">📘</span>
+      <h2>Facebook — Métricas orgánicas</h2>
+      <span class="tag">Fuente: Meta Business Suite</span>
+    </div>
+    <div class="card-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(event, 'fb')">Autos de Sueños</button>
+        <button class="tab" onclick="switchTab(event, 'fb')">Funes</button>
+      </div>
+
+      <!-- FB Autos de Sueños -->
+      <div class="tab-content active" id="fb-autos_suenos">
+        <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">📌 Página compartida — Alicia + Mandela/Roldán</p>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <label>Me gusta / Seguidores</label>
+            <input type="number" id="fb_autos_suenos_seguidores" placeholder="ej: 890">
+          </div>
+          <div class="metric-item">
+            <label>Nuevos seguidores</label>
+            <input type="number" id="fb_autos_suenos_nuevos" placeholder="ej: +5">
+          </div>
+          <div class="metric-item">
+            <label>Alcance orgánico</label>
+            <input type="number" id="fb_autos_suenos_alcance" placeholder="ej: 1800">
+          </div>
+          <div class="metric-item">
+            <label>Impresiones</label>
+            <input type="number" id="fb_autos_suenos_impresiones" placeholder="ej: 2400">
+          </div>
+          <div class="metric-item">
+            <label>Interacciones totales</label>
+            <input type="number" id="fb_autos_suenos_interacciones" placeholder="reacciones + comentarios + compartidos">
+          </div>
+          <div class="metric-item">
+            <label>Visitas a la página</label>
+            <input type="number" id="fb_autos_suenos_visitas" placeholder="ej: 120">
+          </div>
+          <div class="metric-item wide">
+            <label>Post con más interacción</label>
+            <textarea id="fb_autos_suenos_top_post" placeholder="ej: Foto promoción cambio aceite — 42 reacciones, 8 compartidos."></textarea>
+          </div>
+          <div class="metric-item wide">
+            <label>Notas / observaciones</label>
+            <textarea id="fb_autos_suenos_notas" placeholder=""></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- FB Funes -->
+      <div class="tab-content" id="fb-funes">
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <label>Me gusta / Seguidores</label>
+            <input type="number" id="fb_funes_seguidores" placeholder="ej: 430">
+          </div>
+          <div class="metric-item">
+            <label>Nuevos seguidores</label>
+            <input type="number" id="fb_funes_nuevos" placeholder="ej: +3">
+          </div>
+          <div class="metric-item">
+            <label>Alcance orgánico</label>
+            <input type="number" id="fb_funes_alcance" placeholder="">
+          </div>
+          <div class="metric-item">
+            <label>Impresiones</label>
+            <input type="number" id="fb_funes_impresiones" placeholder="">
+          </div>
+          <div class="metric-item">
+            <label>Interacciones totales</label>
+            <input type="number" id="fb_funes_interacciones" placeholder="">
+          </div>
+          <div class="metric-item">
+            <label>Visitas a la página</label>
+            <input type="number" id="fb_funes_visitas" placeholder="">
+          </div>
+          <div class="metric-item wide">
+            <label>Post con más interacción</label>
+            <textarea id="fb_funes_top_post" placeholder=""></textarea>
+          </div>
+          <div class="metric-item wide">
+            <label>Notas / observaciones</label>
+            <textarea id="fb_funes_notas" placeholder=""></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
   <!-- GOOGLE BUSINESS PROFILE -->
   <div class="card">
     <div class="card-header">
@@ -768,11 +824,13 @@
   // Tab switching
   function switchTab(event, prefix) {
     const tabGroup = event.target.parentElement;
-    const localNames = ['alicia', 'mandela', 'funes'];
     const tabs = tabGroup.querySelectorAll('.tab');
     tabs.forEach(t => t.classList.remove('active'));
     event.target.classList.add('active');
     const idx = Array.from(tabs).indexOf(event.target);
+    const localNames = (prefix === 'gbp')
+      ? ['alicia', 'mandela', 'funes']
+      : ['autos_suenos', 'funes'];
     const local = localNames[idx];
     const cardBody = tabGroup.closest('.card-body');
     cardBody.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
@@ -850,11 +908,21 @@
     const igMetrics = ['seguidores', 'nuevos', 'alcance', 'impresiones', 'interacciones', 'visitas_perfil', 'top_post', 'notas'];
     const gbpMetrics = ['busq_directas', 'busq_desc', 'visitas', 'llamadas', 'direccion', 'web'];
 
+    const igLocales = ['autos_suenos', 'funes'];
     const instagram = {};
-    locales.forEach(l => {
+    igLocales.forEach(l => {
       instagram[l] = {};
       igMetrics.forEach(m => {
         instagram[l][m] = get(`ig_${l}_${m}`);
+      });
+    });
+
+    const fbMetrics = ['seguidores', 'nuevos', 'alcance', 'impresiones', 'interacciones', 'visitas', 'top_post', 'notas'];
+    const facebook = {};
+    igLocales.forEach(l => {
+      facebook[l] = {};
+      fbMetrics.forEach(m => {
+        facebook[l][m] = get(`fb_${l}_${m}`);
       });
     });
 
@@ -884,6 +952,7 @@
         fin: get('fecha_fin')
       },
       instagram,
+      facebook,
       google_business,
       resenas_nuevas: reviews,
       contenido_publicado: {
