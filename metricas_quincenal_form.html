@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Métricas Quincenales — Autos de Sueños</title>
+<title>Métricas Mensuales — Autos de Sueños</title>
 <style>
   :root {
     --bg: #f5f5f7;
@@ -258,7 +258,7 @@
 
 <div class="header">
   <div class="header-left">
-    <h1>📊 Métricas Quincenales</h1>
+    <h1>📊 Métricas Mensuales</h1>
     <p>Autos de Sueños — Solo lo que no se puede sacar de otro lado</p>
   </div>
   <span class="badge">ADS MKT</span>
@@ -271,7 +271,7 @@
     <div class="card-header">
       <span class="icon">📅</span>
       <h2>Período</h2>
-      <span class="tag">Se calcula solo</span>
+      <span class="tag">Se calcula solo — mes completo</span>
     </div>
     <div class="card-body">
       <div class="periodo-grid">
@@ -292,16 +292,16 @@
     <div class="card-header">
       <span class="icon">🎬</span>
       <h2>Cumplimiento de la guía</h2>
-      <span class="tag">Resumen del período</span>
+      <span class="tag">Resumen del mes</span>
     </div>
     <div class="card-body">
       <div class="metrics-grid">
         <div class="metric-item wide">
           <label>¿Se siguió la guía? / Qué no se pudo hacer y por qué</label>
-          <textarea id="cont_desvios" placeholder="ej: No se filmó el Reel de Funes porque Agustín no estaba. Se reemplazó con foto estática. El post del lunes se publicó el martes por demora."></textarea>
+          <textarea id="cont_desvios" placeholder="ej: No se filmó el Reel de Funes porque Agustín no estaba. Se reemplazó con foto estática. Un par de posts se publicaron con 1-2 días de demora."></textarea>
         </div>
         <div class="metric-item wide">
-          <label>Contenido que sobró / no se usó de la quincena anterior</label>
+          <label>Contenido que sobró / no se usó del mes anterior</label>
           <textarea id="cont_sobrante" placeholder="ej: Hay 2 fotos de Mandela sin usar, del 20/05. Video aceite Alicia listo para usar."></textarea>
         </div>
       </div>
@@ -318,7 +318,7 @@
       <div class="metrics-grid">
         <div class="metric-item wide">
           <label>Algo que quieras destacar o pedirme para la próxima guía</label>
-          <textarea id="obs_generales" placeholder="ej: Necesitamos más contenido de Funes, el ratio sigue bajo. Para la próxima quincena enfocar en promoción de cambio de aceite antes del invierno." style="min-height:90px;"></textarea>
+          <textarea id="obs_generales" placeholder="ej: Necesitamos más contenido de Funes, el ratio sigue bajo. Para el próximo mes enfocar en promoción de cambio de aceite antes del invierno." style="min-height:90px;"></textarea>
         </div>
       </div>
     </div>
@@ -327,7 +327,7 @@
   <!-- SAVE BAR -->
   <div class="save-bar">
     <div class="save-info">
-      Completá el formulario y hacé clic en <strong>Enviar a Drive</strong> — se guarda automático en la carpeta Reportes.
+      Completá el formulario una vez por mes y hacé clic en <strong>Enviar a Drive</strong> — se guarda automático en la carpeta Reportes.
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <button class="btn-preview" onclick="previewData()">👁 Vista previa</button>
@@ -349,18 +349,11 @@
 </div>
 
 <script>
-  // Período automático: arranca el día siguiente al fin del período anterior según el día de hoy.
-  // Regla simple: del 1 al 15 → quincena 1 (día 1 al 15). Del 16 a fin de mes → quincena 2 (día 16 al último).
+  // Período automático: mes calendario completo, del día 1 al último día del mes actual.
   const today = new Date();
   const dd = d => d.toISOString().split('T')[0];
-  let inicio, fin;
-  if (today.getDate() <= 15) {
-    inicio = new Date(today.getFullYear(), today.getMonth(), 1);
-    fin = new Date(today.getFullYear(), today.getMonth(), 15);
-  } else {
-    inicio = new Date(today.getFullYear(), today.getMonth(), 16);
-    fin = new Date(today.getFullYear(), today.getMonth() + 1, 0); // último día del mes
-  }
+  const inicio = new Date(today.getFullYear(), today.getMonth(), 1);
+  const fin = new Date(today.getFullYear(), today.getMonth() + 1, 0); // último día del mes
   document.getElementById('fecha_inicio').value = dd(inicio);
   document.getElementById('fecha_fin').value = dd(fin);
 
@@ -381,8 +374,8 @@
       observaciones_generales: get('obs_generales'),
       _meta: {
         generado: new Date().toISOString(),
-        fuente: 'metricas_quincenal_form.html',
-        version: 'v2-simplificado'
+        fuente: 'metricas_mensual_form.html',
+        version: 'v3-mensual'
       }
     };
   }
@@ -422,7 +415,7 @@
   function downloadBackup() {
     const data = collectData();
     const fecha = data.periodo.fin || new Date().toISOString().split('T')[0];
-    const filename = `metricas_quincenal_${fecha}.json`;
+    const filename = `metricas_mensual_${fecha}.json`;
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
