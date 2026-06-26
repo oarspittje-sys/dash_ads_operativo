@@ -10,9 +10,7 @@
     --card: #ffffff;
     --accent: #1a1a2e;
     --accent2: #e94560;
-    --green: #2ecc71;
     --yellow: #f39c12;
-    --blue: #3498db;
     --text: #1a1a2e;
     --muted: #6b7280;
     --border: #e5e7eb;
@@ -40,17 +38,8 @@
     gap: 12px;
   }
 
-  .header-left h1 {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--accent);
-  }
-
-  .header-left p {
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
+  .header-left h1 { font-size: 22px; font-weight: 700; color: var(--accent); }
+  .header-left p { font-size: 13px; color: var(--muted); margin-top: 2px; }
 
   .badge {
     background: var(--accent2);
@@ -85,15 +74,8 @@
     gap: 10px;
   }
 
-  .card-header .icon {
-    font-size: 18px;
-  }
-
-  .card-header h2 {
-    font-size: 15px;
-    font-weight: 600;
-  }
-
+  .card-header .icon { font-size: 18px; }
+  .card-header h2 { font-size: 15px; font-weight: 600; }
   .card-header .tag {
     margin-left: auto;
     font-size: 11px;
@@ -104,46 +86,10 @@
     font-weight: 500;
   }
 
-  .card-body {
-    padding: 20px;
-  }
+  .card-body { padding: 20px; }
 
-  /* Período */
-  .periodo-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
+  .periodo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-  /* Locales tabs */
-  .tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 16px;
-  }
-
-  .tab {
-    padding: 7px 16px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
-    color: var(--muted);
-  }
-
-  .tab.active {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
-  }
-
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-
-  /* Grid de métricas */
   .metrics-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -182,93 +128,13 @@
     background: white;
   }
 
-  .metric-item.wide {
-    grid-column: span 3;
-  }
-
-  .metric-item.span2 {
-    grid-column: span 2;
-  }
+  .metric-item.wide { grid-column: span 3; }
+  .metric-item.span2 { grid-column: span 2; }
 
   textarea { resize: vertical; min-height: 70px; }
 
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 16px 0;
-  }
+  .metric-item input[readonly] { color: var(--muted); background: #ececef; }
 
-  /* Reviews section */
-  .review-block {
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px;
-    margin-bottom: 12px;
-    position: relative;
-  }
-
-  .review-block .remove-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--muted);
-    font-size: 16px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    transition: color 0.15s;
-  }
-
-  .review-block .remove-btn:hover { color: var(--accent2); }
-
-  .add-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border: 1px dashed var(--border);
-    border-radius: 8px;
-    background: none;
-    color: var(--muted);
-    font-size: 13px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.15s;
-    margin-top: 4px;
-  }
-
-  .add-btn:hover {
-    border-color: var(--accent2);
-    color: var(--accent2);
-    background: #fff5f7;
-  }
-
-  /* Contenido publicado */
-  .content-item {
-    display: grid;
-    grid-template-columns: 80px 1fr auto;
-    gap: 10px;
-    align-items: start;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .content-item:last-child { border-bottom: none; }
-
-  /* Alertas */
-  .alert {
-    background: #fff8e1;
-    border-left: 3px solid var(--yellow);
-    border-radius: 6px;
-    padding: 10px 14px;
-    font-size: 13px;
-    color: #7d5a00;
-    margin-bottom: 16px;
-  }
-
-  /* Save button */
   .save-bar {
     background: var(--card);
     border-radius: var(--radius);
@@ -328,12 +194,6 @@
     width: 100%;
   }
 
-  /* Stars rating */
-  .stars { display: flex; gap: 4px; }
-  .star { cursor: pointer; font-size: 20px; color: #e0e0e0; transition: color 0.1s; }
-  .star.on { color: #f39c12; }
-
-  /* Modal preview */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -379,6 +239,13 @@
     margin-top: -4px;
   }
 
+  .info-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
   @media (max-width: 600px) {
     .metrics-grid { grid-template-columns: 1fr 1fr; }
     .metric-item.wide { grid-column: span 2; }
@@ -392,374 +259,43 @@
 <div class="header">
   <div class="header-left">
     <h1>📊 Métricas Quincenales</h1>
-    <p>Autos de Sueños — Datos orgánicos para el ciclo de marketing</p>
+    <p>Autos de Sueños — Solo lo que no se puede sacar de otro lado</p>
   </div>
   <span class="badge">ADS MKT</span>
 </div>
 
 <div class="container">
 
-  <!-- PERÍODO -->
+  <!-- PERÍODO (automático, solo lectura) -->
   <div class="card">
     <div class="card-header">
       <span class="icon">📅</span>
       <h2>Período</h2>
+      <span class="tag">Se calcula solo</span>
     </div>
     <div class="card-body">
       <div class="periodo-grid">
         <div class="metric-item">
           <label>Fecha inicio</label>
-          <input type="date" id="fecha_inicio">
+          <input type="date" id="fecha_inicio" readonly>
         </div>
         <div class="metric-item">
           <label>Fecha fin</label>
-          <input type="date" id="fecha_fin">
+          <input type="date" id="fecha_fin" readonly>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- INSTAGRAM -->
-  <div class="card">
-    <div class="card-header">
-      <span class="icon">📸</span>
-      <h2>Instagram — Métricas orgánicas</h2>
-      <span class="tag">Fuente: IG → Insights</span>
-    </div>
-    <div class="card-body">
-      <div class="tabs">
-        <button class="tab active" onclick="switchTab(event, 'ig')">Autos de Sueños</button>
-        <button class="tab" onclick="switchTab(event, 'ig')">Funes</button>
-      </div>
-
-      <!-- Autos de Sueños (Alicia + Mandela/Roldán) -->
-      <div class="tab-content active" id="ig-autos_suenos">
-        <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">📌 Cuenta compartida — Alicia + Mandela/Roldán</p>
-        <div class="metrics-grid">
-          <div class="metric-item">
-            <label>Seguidores totales</label>
-            <input type="number" id="ig_autos_suenos_seguidores" placeholder="ej: 1240">
-          </div>
-          <div class="metric-item">
-            <label>Nuevos seguidores</label>
-            <input type="number" id="ig_autos_suenos_nuevos" placeholder="ej: +18">
-          </div>
-          <div class="metric-item">
-            <label>Alcance (período)</label>
-            <input type="number" id="ig_autos_suenos_alcance" placeholder="ej: 3400">
-          </div>
-          <div class="metric-item">
-            <label>Impresiones</label>
-            <input type="number" id="ig_autos_suenos_impresiones" placeholder="ej: 5800">
-          </div>
-          <div class="metric-item">
-            <label>Interacciones totales</label>
-            <input type="number" id="ig_autos_suenos_interacciones" placeholder="likes + comentarios + guardados">
-          </div>
-          <div class="metric-item">
-            <label>Visitas al perfil</label>
-            <input type="number" id="ig_autos_suenos_visitas_perfil" placeholder="ej: 210">
-          </div>
-          <div class="metric-item wide">
-            <label>Post con más interacción (describir brevemente)</label>
-            <textarea id="ig_autos_suenos_top_post" placeholder="ej: Reel cambio de aceite Golf — 380 reproducciones, 22 likes, 4 comentarios. Publicado el 01/06."></textarea>
-          </div>
-          <div class="metric-item wide">
-            <label>Notas / observaciones</label>
-            <textarea id="ig_autos_suenos_notas" placeholder="Algo que haya llamado la atención este período..."></textarea>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- Funes -->
-      <div class="tab-content" id="ig-funes">
-        <div class="metrics-grid">
-          <div class="metric-item">
-            <label>Seguidores totales</label>
-            <input type="number" id="ig_funes_seguidores" placeholder="ej: 620">
-          </div>
-          <div class="metric-item">
-            <label>Nuevos seguidores</label>
-            <input type="number" id="ig_funes_nuevos" placeholder="ej: +7">
-          </div>
-          <div class="metric-item">
-            <label>Alcance (período)</label>
-            <input type="number" id="ig_funes_alcance" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Impresiones</label>
-            <input type="number" id="ig_funes_impresiones" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Interacciones totales</label>
-            <input type="number" id="ig_funes_interacciones" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Visitas al perfil</label>
-            <input type="number" id="ig_funes_visitas_perfil" placeholder="">
-          </div>
-          <div class="metric-item wide">
-            <label>Post con más interacción</label>
-            <textarea id="ig_funes_top_post" placeholder=""></textarea>
-          </div>
-          <div class="metric-item wide">
-            <label>Notas / observaciones</label>
-            <textarea id="ig_funes_notas" placeholder=""></textarea>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- FACEBOOK -->
-  <div class="card">
-    <div class="card-header">
-      <span class="icon">📘</span>
-      <h2>Facebook — Métricas orgánicas</h2>
-      <span class="tag">Fuente: Meta Business Suite</span>
-    </div>
-    <div class="card-body">
-      <div class="tabs">
-        <button class="tab active" onclick="switchTab(event, 'fb')">Autos de Sueños</button>
-        <button class="tab" onclick="switchTab(event, 'fb')">Funes</button>
-      </div>
-
-      <!-- FB Autos de Sueños -->
-      <div class="tab-content active" id="fb-autos_suenos">
-        <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">📌 Página compartida — Alicia + Mandela/Roldán</p>
-        <div class="metrics-grid">
-          <div class="metric-item">
-            <label>Me gusta / Seguidores</label>
-            <input type="number" id="fb_autos_suenos_seguidores" placeholder="ej: 890">
-          </div>
-          <div class="metric-item">
-            <label>Nuevos seguidores</label>
-            <input type="number" id="fb_autos_suenos_nuevos" placeholder="ej: +5">
-          </div>
-          <div class="metric-item">
-            <label>Alcance orgánico</label>
-            <input type="number" id="fb_autos_suenos_alcance" placeholder="ej: 1800">
-          </div>
-          <div class="metric-item">
-            <label>Impresiones</label>
-            <input type="number" id="fb_autos_suenos_impresiones" placeholder="ej: 2400">
-          </div>
-          <div class="metric-item">
-            <label>Interacciones totales</label>
-            <input type="number" id="fb_autos_suenos_interacciones" placeholder="reacciones + comentarios + compartidos">
-          </div>
-          <div class="metric-item">
-            <label>Visitas a la página</label>
-            <input type="number" id="fb_autos_suenos_visitas" placeholder="ej: 120">
-          </div>
-          <div class="metric-item wide">
-            <label>Post con más interacción</label>
-            <textarea id="fb_autos_suenos_top_post" placeholder="ej: Foto promoción cambio aceite — 42 reacciones, 8 compartidos."></textarea>
-          </div>
-          <div class="metric-item wide">
-            <label>Notas / observaciones</label>
-            <textarea id="fb_autos_suenos_notas" placeholder=""></textarea>
-          </div>
-        </div>
-      </div>
-
-      <!-- FB Funes -->
-      <div class="tab-content" id="fb-funes">
-        <div class="metrics-grid">
-          <div class="metric-item">
-            <label>Me gusta / Seguidores</label>
-            <input type="number" id="fb_funes_seguidores" placeholder="ej: 430">
-          </div>
-          <div class="metric-item">
-            <label>Nuevos seguidores</label>
-            <input type="number" id="fb_funes_nuevos" placeholder="ej: +3">
-          </div>
-          <div class="metric-item">
-            <label>Alcance orgánico</label>
-            <input type="number" id="fb_funes_alcance" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Impresiones</label>
-            <input type="number" id="fb_funes_impresiones" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Interacciones totales</label>
-            <input type="number" id="fb_funes_interacciones" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Visitas a la página</label>
-            <input type="number" id="fb_funes_visitas" placeholder="">
-          </div>
-          <div class="metric-item wide">
-            <label>Post con más interacción</label>
-            <textarea id="fb_funes_top_post" placeholder=""></textarea>
-          </div>
-          <div class="metric-item wide">
-            <label>Notas / observaciones</label>
-            <textarea id="fb_funes_notas" placeholder=""></textarea>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <!-- GOOGLE BUSINESS PROFILE -->
-  <div class="card">
-    <div class="card-header">
-      <span class="icon">📍</span>
-      <h2>Google Business Profile</h2>
-      <span class="tag">Fuente: GBP → Estadísticas</span>
-    </div>
-    <div class="card-body">
-      <div class="tabs">
-        <button class="tab active" onclick="switchTab(event, 'gbp')">Alicia</button>
-        <button class="tab" onclick="switchTab(event, 'gbp')">Mandela</button>
-        <button class="tab" onclick="switchTab(event, 'gbp')">Funes</button>
-      </div>
-
-      <!-- GBP Alicia -->
-      <div class="tab-content active" id="gbp-alicia">
-        <div class="metrics-grid">
-          <div class="metric-item">
-            <label>Búsquedas directas</label>
-            <input type="number" id="gbp_alicia_busq_directas" placeholder="ej: 85">
-          </div>
-          <div class="metric-item">
-            <label>Búsquedas de descubrimiento</label>
-            <input type="number" id="gbp_alicia_busq_desc" placeholder="ej: 310">
-          </div>
-          <div class="metric-item">
-            <label>Visitas al perfil</label>
-            <input type="number" id="gbp_alicia_visitas" placeholder="ej: 140">
-          </div>
-          <div class="metric-item">
-            <label>Llamadas recibidas</label>
-            <input type="number" id="gbp_alicia_llamadas" placeholder="ej: 12">
-          </div>
-          <div class="metric-item">
-            <label>Clics en dirección</label>
-            <input type="number" id="gbp_alicia_direccion" placeholder="ej: 28">
-          </div>
-          <div class="metric-item">
-            <label>Clics en sitio web</label>
-            <input type="number" id="gbp_alicia_web" placeholder="ej: 9">
-          </div>
-        </div>
-      </div>
-
-      <!-- GBP Mandela -->
-      <div class="tab-content" id="gbp-mandela">
-        <div class="metrics-grid">
-          <div class="metric-item">
-            <label>Búsquedas directas</label>
-            <input type="number" id="gbp_mandela_busq_directas" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Búsquedas de descubrimiento</label>
-            <input type="number" id="gbp_mandela_busq_desc" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Visitas al perfil</label>
-            <input type="number" id="gbp_mandela_visitas" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Llamadas recibidas</label>
-            <input type="number" id="gbp_mandela_llamadas" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Clics en dirección</label>
-            <input type="number" id="gbp_mandela_direccion" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Clics en sitio web</label>
-            <input type="number" id="gbp_mandela_web" placeholder="">
-          </div>
-        </div>
-      </div>
-
-      <!-- GBP Funes -->
-      <div class="tab-content" id="gbp-funes">
-        <div class="metrics-grid">
-          <div class="metric-item">
-            <label>Búsquedas directas</label>
-            <input type="number" id="gbp_funes_busq_directas" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Búsquedas de descubrimiento</label>
-            <input type="number" id="gbp_funes_busq_desc" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Visitas al perfil</label>
-            <input type="number" id="gbp_funes_visitas" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Llamadas recibidas</label>
-            <input type="number" id="gbp_funes_llamadas" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Clics en dirección</label>
-            <input type="number" id="gbp_funes_direccion" placeholder="">
-          </div>
-          <div class="metric-item">
-            <label>Clics en sitio web</label>
-            <input type="number" id="gbp_funes_web" placeholder="">
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- RESEÑAS NUEVAS -->
-  <div class="card">
-    <div class="card-header">
-      <span class="icon">⭐</span>
-      <h2>Reseñas nuevas sin responder</h2>
-      <span class="tag">Google + Facebook</span>
-    </div>
-    <div class="card-body">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Solo las que NO tengan respuesta todavía. Yo genero el texto de respuesta en la guía de Evy.</p>
-      <div id="reviews-container"></div>
-      <button class="add-btn" onclick="addReview()">＋ Agregar reseña</button>
-    </div>
-  </div>
-
-  <!-- CONTENIDO PUBLICADO -->
+  <!-- DESVÍOS Y CONTENIDO SOBRANTE -->
   <div class="card">
     <div class="card-header">
       <span class="icon">🎬</span>
-      <h2>Contenido publicado por Evy</h2>
+      <h2>Cumplimiento de la guía</h2>
       <span class="tag">Resumen del período</span>
     </div>
     <div class="card-body">
       <div class="metrics-grid">
-        <div class="metric-item">
-          <label>Posts en feed (total)</label>
-          <input type="number" id="cont_posts_feed" placeholder="ej: 8">
-        </div>
-        <div class="metric-item">
-          <label>Reels publicados</label>
-          <input type="number" id="cont_reels" placeholder="ej: 3">
-        </div>
-        <div class="metric-item">
-          <label>Stories promedio/día</label>
-          <input type="number" id="cont_stories_dia" placeholder="ej: 2">
-        </div>
-        <div class="metric-item">
-          <label>Posts en Facebook</label>
-          <input type="number" id="cont_posts_fb" placeholder="ej: 5">
-        </div>
-        <div class="metric-item">
-          <label>Mensajes WhatsApp difusión</label>
-          <input type="number" id="cont_wa" placeholder="ej: 2">
-        </div>
-        <div class="metric-item">
-          <label>Posts Google Business</label>
-          <input type="number" id="cont_gbp_posts" placeholder="ej: 1">
-        </div>
         <div class="metric-item wide">
           <label>¿Se siguió la guía? / Qué no se pudo hacer y por qué</label>
           <textarea id="cont_desvios" placeholder="ej: No se filmó el Reel de Funes porque Agustín no estaba. Se reemplazó con foto estática. El post del lunes se publicó el martes por demora."></textarea>
@@ -813,162 +349,40 @@
 </div>
 
 <script>
-  // Set default dates
+  // Período automático: arranca el día siguiente al fin del período anterior según el día de hoy.
+  // Regla simple: del 1 al 15 → quincena 1 (día 1 al 15). Del 16 a fin de mes → quincena 2 (día 16 al último).
   const today = new Date();
   const dd = d => d.toISOString().split('T')[0];
-  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-  const midDay = new Date(today.getFullYear(), today.getMonth(), 15);
-  document.getElementById('fecha_inicio').value = dd(firstDay);
-  document.getElementById('fecha_fin').value = dd(today);
-
-  // Tab switching
-  function switchTab(event, prefix) {
-    const tabGroup = event.target.parentElement;
-    const tabs = tabGroup.querySelectorAll('.tab');
-    tabs.forEach(t => t.classList.remove('active'));
-    event.target.classList.add('active');
-    const idx = Array.from(tabs).indexOf(event.target);
-    const localNames = (prefix === 'gbp')
-      ? ['alicia', 'mandela', 'funes']
-      : ['autos_suenos', 'funes'];
-    const local = localNames[idx];
-    const cardBody = tabGroup.closest('.card-body');
-    cardBody.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-    document.getElementById(`${prefix}-${local}`).classList.add('active');
+  let inicio, fin;
+  if (today.getDate() <= 15) {
+    inicio = new Date(today.getFullYear(), today.getMonth(), 1);
+    fin = new Date(today.getFullYear(), today.getMonth(), 15);
+  } else {
+    inicio = new Date(today.getFullYear(), today.getMonth(), 16);
+    fin = new Date(today.getFullYear(), today.getMonth() + 1, 0); // último día del mes
   }
-
-  // Reviews
-  let reviewCount = 0;
-
-  function addReview() {
-    reviewCount++;
-    const id = reviewCount;
-    const container = document.getElementById('reviews-container');
-    const div = document.createElement('div');
-    div.className = 'review-block';
-    div.id = `review-${id}`;
-    div.innerHTML = `
-      <button class="remove-btn" onclick="removeReview(${id})">✕</button>
-      <div class="metrics-grid" style="margin-bottom:10px;">
-        <div class="metric-item">
-          <label>Local</label>
-          <select id="rev_${id}_local">
-            <option value="">— Elegir —</option>
-            <option>Alicia</option>
-            <option>Mandela</option>
-            <option>Funes</option>
-          </select>
-        </div>
-        <div class="metric-item">
-          <label>Red social</label>
-          <select id="rev_${id}_red">
-            <option value="">— Elegir —</option>
-            <option>Google</option>
-            <option>Facebook</option>
-          </select>
-        </div>
-        <div class="metric-item">
-          <label>Puntaje</label>
-          <div class="stars" id="stars-${id}">
-            <span class="star" onclick="setStar(${id},1)">★</span>
-            <span class="star" onclick="setStar(${id},2)">★</span>
-            <span class="star" onclick="setStar(${id},3)">★</span>
-            <span class="star" onclick="setStar(${id},4)">★</span>
-            <span class="star" onclick="setStar(${id},5)">★</span>
-          </div>
-          <input type="hidden" id="rev_${id}_stars" value="0">
-        </div>
-        <div class="metric-item wide">
-          <label>Texto de la reseña</label>
-          <textarea id="rev_${id}_texto" placeholder="Pegá el texto exacto de la reseña..."></textarea>
-        </div>
-        <div class="metric-item span2">
-          <label>Nombre del autor (opcional)</label>
-          <input type="text" id="rev_${id}_autor" placeholder="ej: Juan P.">
-        </div>
-      </div>
-    `;
-    container.appendChild(div);
-  }
-
-  function removeReview(id) {
-    document.getElementById(`review-${id}`).remove();
-  }
-
-  function setStar(id, n) {
-    document.getElementById(`rev_${id}_stars`).value = n;
-    const stars = document.getElementById(`stars-${id}`).querySelectorAll('.star');
-    stars.forEach((s, i) => s.classList.toggle('on', i < n));
-  }
+  document.getElementById('fecha_inicio').value = dd(inicio);
+  document.getElementById('fecha_fin').value = dd(fin);
 
   // Collect all data
   function collectData() {
     const get = id => { const el = document.getElementById(id); return el ? el.value : ''; };
-    const locales = ['alicia', 'mandela', 'funes'];
-    const igMetrics = ['seguidores', 'nuevos', 'alcance', 'impresiones', 'interacciones', 'visitas_perfil', 'top_post', 'notas'];
-    const gbpMetrics = ['busq_directas', 'busq_desc', 'visitas', 'llamadas', 'direccion', 'web'];
-
-    const igLocales = ['autos_suenos', 'funes'];
-    const instagram = {};
-    igLocales.forEach(l => {
-      instagram[l] = {};
-      igMetrics.forEach(m => {
-        instagram[l][m] = get(`ig_${l}_${m}`);
-      });
-    });
-
-    const fbMetrics = ['seguidores', 'nuevos', 'alcance', 'impresiones', 'interacciones', 'visitas', 'top_post', 'notas'];
-    const facebook = {};
-    igLocales.forEach(l => {
-      facebook[l] = {};
-      fbMetrics.forEach(m => {
-        facebook[l][m] = get(`fb_${l}_${m}`);
-      });
-    });
-
-    const google_business = {};
-    locales.forEach(l => {
-      google_business[l] = {};
-      gbpMetrics.forEach(m => {
-        google_business[l][m] = get(`gbp_${l}_${m}`);
-      });
-    });
-
-    const reviews = [];
-    document.querySelectorAll('.review-block').forEach(block => {
-      const id = block.id.split('-')[1];
-      reviews.push({
-        local: get(`rev_${id}_local`),
-        red: get(`rev_${id}_red`),
-        puntaje: parseInt(get(`rev_${id}_stars`) || 0),
-        texto: get(`rev_${id}_texto`),
-        autor: get(`rev_${id}_autor`)
-      });
-    });
 
     return {
       periodo: {
         inicio: get('fecha_inicio'),
         fin: get('fecha_fin')
       },
-      instagram,
-      facebook,
-      google_business,
-      resenas_nuevas: reviews,
+      resenas_nuevas: [],
       contenido_publicado: {
-        posts_feed: get('cont_posts_feed'),
-        reels: get('cont_reels'),
-        stories_promedio_dia: get('cont_stories_dia'),
-        posts_facebook: get('cont_posts_fb'),
-        mensajes_whatsapp: get('cont_wa'),
-        posts_google_business: get('cont_gbp_posts'),
         desvios_de_guia: get('cont_desvios'),
         contenido_sobrante: get('cont_sobrante')
       },
       observaciones_generales: get('obs_generales'),
       _meta: {
         generado: new Date().toISOString(),
-        fuente: 'metricas_quincenal_form.html'
+        fuente: 'metricas_quincenal_form.html',
+        version: 'v2-simplificado'
       }
     };
   }
@@ -978,7 +392,7 @@
   async function sendData() {
     const data = collectData();
     if (!data.periodo.fin) {
-      alert('Completá la fecha de fin del período antes de enviar.');
+      alert('No se pudo calcular el período. Recargá la página e intentá de nuevo.');
       return;
     }
     const btn = document.getElementById('btn-save');
@@ -1027,9 +441,6 @@
       document.getElementById('modal-overlay').classList.remove('open');
     }
   }
-
-  // Add first empty review block hint
-  // (leave empty, user adds manually)
 </script>
 </body>
 </html>
