@@ -817,7 +817,7 @@
         </div>
       </div>
       <div class="card" style="margin-bottom:22px;">
-        <div class="card-title">Totales por taller — últimos 12 meses</div>
+        <div class="card-title">Totales por taller — período completo</div>
         <div class="card-sub">Ranking de servicios consolidado entre Alicia, Funes y Mandela</div>
         <div class="table-wrap" style="margin-top:12px;">
           <table class="dtable" id="table-compare3"></table>
@@ -970,7 +970,7 @@
 
   <footer
     style="border-top:1px solid var(--gold-border);padding:16px 32px;text-align:center;color:var(--muted);font-size:10px;letter-spacing:.05em;">
-    AUTOS DE SUEÑOS · DASHBOARD DE ANÁLISIS · MAYO 2024 — ABRIL 2025
+    AUTOS DE SUEÑOS · DASHBOARD DE ANÁLISIS · DATOS SEGÚN SHEET · PERÍODO DINÁMICO
   </footer>
 
   <script>
@@ -992,6 +992,7 @@
 
     let SHEET_DATA = { "Alicia": { "meses": ["Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre", "Enero", "Febrero", "Marzo", "Abril", "Mayo"], "data": { "Lavados": [55, 63, 27, 55, 56, 59, 33, 33, 32, 35, 30, 15, 12], "C. Aceite": [45, 23, 27, 36, 26, 20, 29, 26, 40, 23, 37, 26, 22], "Tapizados": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], "Pulido": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "Escape": [0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0], "Tren": [17, 12, 8, 11, 10, 11, 3, 7, 8, 13, 3, 7, 12], "Distribución": [5, 2, 3, 4, 4, 2, 4, 5, 4, 1, 12, 5, 5], "Ref. Agua": [2, 7, 10, 1, 4, 7, 7, 3, 4, 2, 3, 4, 7], "Bujías": [1, 4, 3, 6, 2, 1, 2, 3, 4, 0, 5, 2, 4], "Otros": [14, 10, 12, 9, 17, 17, 7, 14, 13, 12, 9, 13, 15], "Tapas": [2, 0, 1, 5, 1, 2, 0, 0, 0, 0, 0, 0, 0] }, "anual": { "years": [2021, 2022, 2023, 2024, 2025, 2026], "Lavados": [1439, 1543, 695, 743, 583, 124], "C. Aceite": [324, 433, 482, 439, 394, 148], "Tren": [78, 117, 111, 197, 128, 35], "Distribución": [0, 39, 62, 76, 58, 23], "Otros": [0, 67, 131, 151, 173, 62] } }, "Funes": { "meses": ["Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre", "Enero", "Febrero", "Marzo", "Abril", "Mayo"], "data": { "Lavados": [306, 370, 333, 277, 264, 337, 217, 294, 277, 118, 209, 221, 239], "C. Aceite": [20, 10, 25, 22, 22, 17, 15, 28, 22, 15, 13, 15, 18], "Tapizados": [2, 0, 2, 3, 0, 0, 2, 2, 0, 0, 1, 3, 4], "Pulido": [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], "Escape": [11, 5, 10, 8, 10, 10, 8, 9, 10, 2, 7, 5, 4], "Tren": [0, 1, 0, 1, 0, 1, 0, 0, 2, 1, 4, 0, 0], "Distribución": [0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0], "Ref. Agua": [1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 2, 0], "Bujías": [1, 0, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0], "Otros": [1, 0, 0, 1, 3, 4, 2, 0, 1, 0, 1, 4, 0], "Tapas": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }, "anual": { "years": [2022, 2023, 2024, 2025, 2026], "Lavados": [4430, 4697, 4280, 3620, 1064], "C. Aceite": [348, 346, 273, 255, 83], "Escape": [123, 146, 94, 128, 7], "Tren": [0, 0, 0, 7, 7] } }, "Mandela": { "meses": ["Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre", "Enero", "Febrero", "Marzo", "Abril", "Mayo"], "data": { "Lavados": [30, 17, 24, 19, 21, 28, 20, 16, 23, 20, 11, 10, 3], "C. Aceite": [14, 11, 17, 14, 25, 30, 20, 37, 31, 10, 16, 18, 21], "Tapizados": [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], "Pulido": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "Escape": [1, 1, 4, 0, 3, 3, 5, 0, 2, 2, 0, 0, 1], "Tren": [5, 8, 8, 4, 8, 11, 10, 6, 8, 3, 8, 12, 6], "Distribución": [0, 2, 2, 2, 4, 11, 6, 6, 5, 6, 3, 5, 4], "Ref. Agua": [0, 2, 1, 1, 2, 7, 3, 1, 1, 1, 2, 3, 3], "Bujías": [2, 2, 0, 0, 0, 3, 1, 1, 0, 1, 0, 0, 2], "Otros": [3, 3, 4, 4, 6, 3, 7, 20, 18, 2, 7, 4, 6], "Tapas": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1] }, "anual": { "years": [2025, 2026], "Lavados": [175, 67], "C. Aceite": [168, 96], "Tren": [60, 37], "Distribución": [33, 23], "Otros": [50, 37] } } };
     let meses = SHEET_DATA.Alicia.meses;
+    const DIAS_HABILES_MES = 26; // Lun a Sab: ~26 dias habiles por mes
     let talleres = {
       Alicia: { data: SHEET_DATA.Alicia.data, anual: SHEET_DATA.Alicia.anual },
       Funes: { data: SHEET_DATA.Funes.data, anual: SHEET_DATA.Funes.anual },
@@ -1277,14 +1278,15 @@
     function buildTKPIs() {
       const hpm = horasPorMes();
       const totH = hpm.reduce((a, b) => a + b, 0);
-      const prom = totH / 12;
+      const nMeses = Math.max(meses.length, 1);
+      const prom = totH / nMeses;
       const picI = hpm.indexOf(Math.max(...hpm));
       const svc = visibleServices();
       const d = currentData();
       const porSvc = svc.map(s => ({ name: s, h: (d[s] || []).reduce((a, b) => a + b, 0) * (serviceTimes[s] || 30) / 60 })).sort((a, b) => b.h - a.h);
       document.getElementById('tkpi-grid').innerHTML = `
-    <div class="tkpi"><div class="label">Total horas anuales</div><div class="value">${Math.round(totH)}h</div><div class="sub">~${(totH / 22 / 12).toFixed(1)}h/día hábil</div></div>
-    <div class="tkpi"><div class="label">Promedio mensual</div><div class="value">${Math.round(prom)}h</div><div class="sub">~${(prom / 22).toFixed(1)}h por día</div></div>
+    <div class="tkpi"><div class="label">Total horas del período (${nMeses} meses)</div><div class="value">${Math.round(totH)}h</div><div class="sub">~${(totH / (DIAS_HABILES_MES * nMeses)).toFixed(1)}h/día hábil</div></div>
+    <div class="tkpi"><div class="label">Promedio mensual</div><div class="value">${Math.round(prom)}h</div><div class="sub">~${(prom / DIAS_HABILES_MES).toFixed(1)}h por día</div></div>
     <div class="tkpi"><div class="label">Mes más cargado</div><div class="value">${meses[picI]}</div><div class="sub">${Math.round(hpm[picI])}h ese mes</div></div>
     <div class="tkpi"><div class="label">Servicio más pesado</div><div class="value" style="font-size:18px;padding-top:4px">${porSvc[0]?.name || '—'}</div><div class="sub">${Math.round(porSvc[0]?.h || 0)}h · ${totH > 0 ? ((porSvc[0]?.h || 0) / totH * 100).toFixed(1) : 0}%</div></div>`;
     }
@@ -1293,7 +1295,7 @@
       const ctx = document.getElementById('chartTimeBar').getContext('2d');
       const hpm = horasPorMes();
       const cpm = totPerMes(visibleServices());
-      const disp = timeView === 'horas' ? hpm.map(h => +h.toFixed(1)) : hpm.map(h => +(h / 22).toFixed(2));
+      const disp = timeView === 'horas' ? hpm.map(h => +h.toFixed(1)) : hpm.map(h => +(h / DIAS_HABILES_MES).toFixed(2));
       chartTimeBar = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -1390,7 +1392,7 @@
           options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: bTooltip() }, scales: { ...bScales(), x: { ...bScales().x, stacked: true }, y: { ...bScales().y, stacked: true } }, onClick: (e, els) => { if (els.length) onBarClick(els[0].index) } }
         });
       }
-      document.getElementById('main-chart-title').textContent = activeTab === 'Todos' ? 'Todos los talleres — servicios por mes' : `Taller ${activeTab} — últimos 12 meses`;
+      document.getElementById('main-chart-title').textContent = activeTab === 'Todos' ? 'Todos los talleres — servicios por mes' : `Taller ${activeTab} — período completo`;
     }
 
     // =====================================================
